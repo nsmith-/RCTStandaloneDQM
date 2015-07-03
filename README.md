@@ -14,7 +14,13 @@ git rebase --onto from-CMSSW_7_4_6 f9bbfeec1dd49f3a673ab36634f93178084cfc84 RCTT
 git remote add mcepeda https://github.com/mcepeda/cmssw.git
 git fetch mcepeda updatedDQMForFED1350V2:updatedDQMForFED1350V2
 git rebase --onto from-CMSSW_7_4_6 CMSSW_7_4_5 updatedDQMForFED1350V2
-git checkout -b RCTStandaloneDQM
+git checkout -b RCTStandaloneDQM from-CMSSW_7_4_6
 git merge RCTToDigiBackport # should be fast-forward
 git merge updatedDQMForFED1350V2
+cd DQM
+git clone https://github.com/nsmith-/RCTStandaloneDQM.git
+cd ..
+scram b -j 4
 ```
+
+All the rebasing was necessary because the unpacker was at 76X and the updated DQM code was at 745, so it was making some nasty merge commits.
