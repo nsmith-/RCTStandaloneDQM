@@ -1,6 +1,12 @@
 RCT Standalone DQM Package
 ==========================
 
+This package provides quick turn-around DQM at the expense of not being integrated into CMS Offline DQM Web GUI.
+It is mostly for RCT experts to investigate issues in the hardware.
+
+Installation
+------------
+
 From new CMSSW_7_4_6:
 
 ```bash
@@ -24,3 +30,4 @@ scram b -j 4
 ```
 
 All the rebasing was necessary because the unpacker was at 76X and the updated DQM code was at 745, so it was making some nasty merge commits.
+

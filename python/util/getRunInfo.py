@@ -8,6 +8,9 @@ def daysAgo(n) :
     date = today()
     return date - datetime.timedelta(days=n)
 
+def day(string) :
+    return datetime.datetime.strptime(string, "%Y%m%d").date()
+
 def getRunsForDate(date, minlumis=10) :
     '''
         date: expected to be datetime.datetime object
@@ -33,14 +36,15 @@ def getFilesForRun(run, dataset) :
 
     files = []
     for fileDict in dasQuery(querystring, 'file') :
-        files.append(fileDict['name'])
+        # cmsRun will not like unicode
+        files.append(fileDict['name'].encode('ascii','replace'))
 
     return files
 
 def dasQuery(queryString, entryTitle) :
     dasinfo = das_client.get_data('https://cmsweb.cern.ch', queryString, 0, 0, False)
     if dasinfo['status'] != 'ok' :
-        raise Exception('DAS query failed.  Query: %s'%queryString)
+        raise Exception('DAS query failed.\nQuery: %s\nDAS Status returned: %s' % (queryString, dasinfo['status']))
 
     for entry in dasinfo['data'] :
         yield entry[entryTitle][0]
