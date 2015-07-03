@@ -1,6 +1,7 @@
 #include "TROOT.h"
 #include "TFile.h"
 #include "TCanvas.h"
+#include "TObjArray.h"
 #include "TH2.h"
 #include <map>
 #include "TStyle.h"

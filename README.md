@@ -30,7 +30,8 @@ cd ..
 scram b -j 4
 ```
 
-*This recipe will make a CMSSW branch unsuitable for a pull request*
+__This recipe will make a CMSSW branch unsuitable for a pull request__
+
 All the rebasing was necessary because the unpacker was at 76X and the updated DQM code was at 745, so it was making some nasty merge commits.
 
 
@@ -44,3 +45,5 @@ cmsRun testRCToffline.py
 mv DQM_V0001_R000249951__L1TMonitor__Calo__RCTOffline.root run249951.root
 root -b -q -l "newRct.C++(\"249951\")"
 ```
+
+The plotting script appears to crash pretty hard, probably a ROOT 6 issue.
