@@ -9,6 +9,17 @@ Installation
 
 From new CMSSW_7_4_6:
 
+```bash
+git cms-merge-topic --unsafe nsmith-:RCTStandaloneDQM
+cd DQM
+git clone https://github.com/nsmith-/RCTStandaloneDQM.git
+cd ..
+scram b -j 4
+```
+
+[Link to Branch](https://github.com/nsmith-/cmssw/tree/RCTStandaloneDQM)
+How I got to that branch:
+
 _If rebase fails, try `git rebase --abort` and then try again_
 
 ```bash
@@ -24,10 +35,6 @@ git rebase --onto from-CMSSW_7_4_6 CMSSW_7_4_5 updatedDQMForFED1350V2
 git checkout -b RCTStandaloneDQM from-CMSSW_7_4_6
 git merge RCTToDigiBackport # should be fast-forward
 git merge updatedDQMForFED1350V2
-cd DQM
-git clone https://github.com/nsmith-/RCTStandaloneDQM.git
-cd ..
-scram b -j 4
 ```
 
 __This recipe will make a CMSSW branch unsuitable for a pull request__
