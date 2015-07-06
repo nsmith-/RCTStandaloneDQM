@@ -36,9 +36,8 @@ genRunIndex ()
   echo "<h1>RCT DQM Plots<br /> RUN #${RUNNUMBER:3:6} </h1> " >> index.html
 
   for img in *.png ; do
-    echo Resizing and generating thumbnail for $img...
+    echo Generating thumbnail for $img...
     convert -scale 240 $img thumb-$img
-    mogrify -scale 640 $img
     echo "<a href=\"$img\"><img src=\"thumb-$img\"></a> " >> index.html
   done
 
@@ -79,7 +78,7 @@ echo Checking for new runs...
 
 for inputDir in `ls -1 ${1}`
 do
-  if [ "$(ls -A ${1}/${inputDir})" ]
+  if [[ -d ${1}/${inputDir} ]]
   then
     echo Found ${1}/${inputDir}
 
@@ -88,6 +87,7 @@ do
     echo Moving to ${2}
     #rm -r ${2}/${inputDir}
     mv ${1}/${inputDir} ${2}
+    fs setacl ${2}/{$inputDir} webserver:afs read 
 
     NEWPLOTS=true
   fi
