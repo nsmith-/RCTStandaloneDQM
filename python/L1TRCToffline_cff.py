@@ -10,9 +10,6 @@ from Configuration.StandardSequences.RawToDigi_Data_cff import *
 from L1Trigger.HardwareValidation.L1HardwareValidation_cff import *
 from L1Trigger.Configuration.L1Config_cff import *
 
-# For the GT
-from L1TriggerConfig.L1GtConfigProducers.L1GtConfig_cff import *
-
 #dqm
 rctEmulDigis = cms.EDProducer("L1RCTProducer",
     useEcal = cms.bool(True),
@@ -47,8 +44,8 @@ l1trct = cms.EDAnalyzer("L1TRCT",
 )
 
 rctdqm = cms.Sequence(
-     cms.SequencePlaceholder("RawToDigi")
-    *cms.SequencePlaceholder("rctEmulDigis")
-    *cms.SequencePlaceholder("l1trct")
-    *cms.SequencePlaceholder("l1tderct")
+    RawToDigi
+    *rctEmulDigis
+    *l1trct
+    *l1tderct
 )

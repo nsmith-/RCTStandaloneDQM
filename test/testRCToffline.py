@@ -12,7 +12,8 @@ process.load("FWCore.MessageService.MessageLogger_cfi")
 process.MessageLogger.cerr.FwkReport = cms.untracked.PSet( reportEvery = cms.untracked.int32(1000) )
 
 process.load('Configuration/StandardSequences/FrontierConditions_GlobalTag_condDBv2_cff')
-process.GlobalTag.globaltag = 'GR_H_V45'
+process.GlobalTag.globaltag = 'GR_H_V58C'
+process.es_prefer_GlobalTag = cms.ESPrefer('PoolDBESSource', 'GlobalTag')
 
 process.load("DQMServices.Core.DQM_cfg")
 process.load("DQMServices.Components.DQMEnvironment_cfi")

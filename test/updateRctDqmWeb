@@ -85,9 +85,9 @@ do
     genRunIndex ${1}/${inputDir}
 
     echo Moving to ${2}
-    #rm -r ${2}/${inputDir}
+    rm -r ${2}/${inputDir}
     mv ${1}/${inputDir} ${2}
-    fs setacl ${2}/{$inputDir} webserver:afs read 
+    fs setacl ${2}/${inputDir} webserver:afs read
 
     NEWPLOTS=true
   fi
