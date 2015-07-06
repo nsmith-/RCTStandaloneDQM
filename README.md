@@ -50,7 +50,10 @@ From `test`.  The errors about GCT unpacker are plentiful and to be ignored for 
 ```bash
 cmsRun testRCToffline.py
 mv DQM_V0001_R000249951__L1TMonitor__Calo__RCTOffline.root run249951.root
+mkdir run249951
 root -b -q -l "newRct.C++(\"249951\")"
+mkdir dqmAnalysis
+mv run249951 dqmAnalysis
+./updateRctDqmWeb dqmAnalysis ~/www/RCTStandaloneDQM
 ```
 
-The plotting script appears to crash pretty hard, probably a ROOT 6 issue.

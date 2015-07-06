@@ -322,7 +322,7 @@ void newRct(TString runString) {
 
   f = new TFile("run" + runNumber + ".root");
 
-  d = f->GetDirectory("DQMData/L1TEMU/L1TdeRCT");
+  d = f->GetDirectory("DQMData/Run "+runNumber+"/L1TEMU/Run summary/L1TdeRCT");
 
   ofstream description;
 
@@ -347,7 +347,7 @@ void newRct(TString runString) {
   rctInputTPGHcalOcc->Draw("box");
   c1->SaveAs("./run" + runNumber + "/hcalTpgOcc.png");
 
-  d = f->GetDirectory("DQMData/L1TEMU/L1TdeRCT/BitData/ServiceData");
+  d = f->GetDirectory("DQMData/Run "+runNumber+"/L1TEMU/Run summary/L1TdeRCT/BitData/ServiceData");
 
   TH2F* rctBitDataHfPlusTau2D = (TH2F*)d->Get("rctBitDataHfPlusTau2D");
   TH2F* rctBitDataMip2D       = (TH2F*)d->Get("rctBitDataMip2D");
@@ -406,8 +406,8 @@ void newRct(TString runString) {
   // rctBitEmulQuiet2D->Draw("box");
   // c1->SaveAs("./run" + runNumber + "/quietOccEmul.png");
 
-  d = f->GetDirectory("DQMData/L1TEMU/L1TdeRCT/BitData");
-  readQualityTests("run" + runNumber + ".root", "DQMData/L1TEMU/L1TdeRCT/BitData");
+  d = f->GetDirectory("DQMData/Run "+runNumber+"/L1TEMU/Run summary/L1TdeRCT/BitData");
+  readQualityTests("run" + runNumber + ".root", "DQMData/Run "+runNumber+"/L1TEMU/Run summary/L1TdeRCT/BitData");
 
   TH2F* rctBitHfPlusTauEff2D     = (TH2F*)d->Get("rctBitHfPlusTauEff2D");
   TH2F* rctBitMipEff2D           = (TH2F*)d->Get("rctBitMipEff2D");
@@ -621,7 +621,7 @@ void newRct(TString runString) {
 //   dummybox->Draw("box, same");
 //   c13->SaveAs("./run" + runNumber + "/quietOverEff.png");
 
-  d = f->GetDirectory("DQMData/L1TEMU/L1TdeRCT/NisoEm/ServiceData");
+  d = f->GetDirectory("DQMData/Run "+runNumber+"/L1TEMU/Run summary/L1TdeRCT/NisoEm/ServiceData");
 
   TH2F* rctNisoEmDataOcc = (TH2F*)d->Get("rctNisoEmDataOcc");
   TH2F* rctNisoEmEmulOcc = (TH2F*)d->Get("rctNisoEmEmulOcc");
@@ -642,8 +642,8 @@ void newRct(TString runString) {
   rctNisoEmEmulOcc->Draw("box");
   ca2->SaveAs("./run" + runNumber + "/nonIsoOccEmul.png");
 
-  d = f->GetDirectory("DQMData/L1TEMU/L1TdeRCT/NisoEm");
-  readQualityTests("run" + runNumber + ".root", "DQMData/L1TEMU/L1TdeRCT/NisoEm");
+  d = f->GetDirectory("DQMData/Run "+runNumber+"/L1TEMU/Run summary/L1TdeRCT/NisoEm");
+  readQualityTests("run" + runNumber + ".root", "DQMData/Run "+runNumber+"/L1TEMU/Run summary/L1TdeRCT/NisoEm");
 
   TH2F* rctNisoEmEff1    = (TH2F*)d->Get("rctNisoEmEff1");
   TH2F* rctNisoEmEff2    = (TH2F*)d->Get("rctNisoEmEff2");
@@ -723,7 +723,7 @@ void newRct(TString runString) {
 
   gStyle->SetTitleFillColor(kWhite);
 
-  d = f->GetDirectory("DQMData/L1TEMU/L1TdeRCT/IsoEm/ServiceData");
+  d = f->GetDirectory("DQMData/Run "+runNumber+"/L1TEMU/Run summary/L1TdeRCT/IsoEm/ServiceData");
 
   TH2F* rctIsoEmDataOcc = (TH2F*)d->Get("rctIsoEmDataOcc");
   TH2F* rctIsoEmEmulOcc = (TH2F*)d->Get("rctIsoEmEmulOcc");
@@ -744,8 +744,8 @@ void newRct(TString runString) {
   rctIsoEmEmulOcc->Draw("box");
   cb2->SaveAs("./run" + runNumber + "/isoOccEmul.png");
 
-  d = f->GetDirectory("DQMData/L1TEMU/L1TdeRCT/IsoEm");
-  readQualityTests("run" + runNumber + ".root", "DQMData/L1TEMU/L1TdeRCT/IsoEm");
+  d = f->GetDirectory("DQMData/Run "+runNumber+"/L1TEMU/Run summary/L1TdeRCT/IsoEm");
+  readQualityTests("run" + runNumber + ".root", "DQMData/Run "+runNumber+"/L1TEMU/Run summary/L1TdeRCT/IsoEm");
 
   TH2F* rctIsoEmEff1    = (TH2F*)d->Get("rctIsoEmEff1");
   TH2F* rctIsoEmEff2    = (TH2F*)d->Get("rctIsoEmEff2");
@@ -824,7 +824,7 @@ void newRct(TString runString) {
 
   gStyle->SetTitleFillColor(kWhite);
 
-  d = f->GetDirectory("DQMData/L1TEMU/L1TdeRCT/RegionData/ServiceData");
+  d = f->GetDirectory("DQMData/Run "+runNumber+"/L1TEMU/Run summary/L1TdeRCT/RegionData/ServiceData");
 
   TH2F* rctRegDataOcc2D = (TH2F*)d->Get("rctRegDataOcc2D");
   TH2F* rctRegEmulOcc2D = (TH2F*)d->Get("rctRegEmulOcc2D");
@@ -845,8 +845,8 @@ void newRct(TString runString) {
   rctRegEmulOcc2D->Draw("box");
   cc2->SaveAs("./run" + runNumber + "/regOccEmul.png");
 
-  d = f->GetDirectory("DQMData/L1TEMU/L1TdeRCT/RegionData");
-  readQualityTests("run" + runNumber + ".root", "DQMData/L1TEMU/L1TdeRCT/RegionData");
+  d = f->GetDirectory("DQMData/Run "+runNumber+"/L1TEMU/Run summary/L1TdeRCT/RegionData");
+  readQualityTests("run" + runNumber + ".root", "DQMData/Run "+runNumber+"/L1TEMU/Run summary/L1TdeRCT/RegionData");
 
   TH2F* rctRegEff2D     = (TH2F*)d->Get("rctRegEff2D");
   TH2F* rctRegSpEff2D   = (TH2F*)d->Get("rctRegSpEff2D");
