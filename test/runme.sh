@@ -1,4 +1,4 @@
-cmsRun testRCToffline.py
+cmsRun testRCToffline.py 2>/dev/null | grep -v '^1111$'
 mv DQM_V0001_R000249951__L1TMonitor__Calo__RCTOffline.root run249951.root
 mkdir run249951
 root -b -q -l "newRct.C++(\"249951\", \"L1TdeRCT\")"
