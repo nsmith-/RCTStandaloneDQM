@@ -92,7 +92,7 @@ genMainIndex()
   for dir in run* ; do
     echo Adding ${dir}...
     echo "<a href=\"$dir/index.html\">RCT Run #${dir:3:6} </a>" >> index.html
-    cat "$dir/description.txt" >> index.html
+    cat "$dir/description_L1TdeRCT.txt" >> index.html
     echo "<br />" >> index.html
   done
 
