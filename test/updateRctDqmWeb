@@ -35,12 +35,44 @@ genRunIndex ()
   echo "<html> <head> <title>Regional Calorimeter Trigger Data Quality Monitoring Page</title></head><body> " > index.html
   echo "<h1>RCT DQM Plots<br /> RUN #${RUNNUMBER:3:6} </h1> " >> index.html
 
-  for img in *.png ; do
+  cat <<EOF >> index.html
+<input type="button" onclick="togglePlots()" value="Toggle!" /><br />
+<h2 id="label">RCT Digis from CTP7</h2>
+<script type="text/javascript">
+function togglePlots() {
+  ctp7 = document.getElementById('fromCTP7');
+  gct  = document.getElementById('fromGCT');
+  label  = document.getElementById('label');
+  if ( ctp7.style.display == 'block' ) {
+    ctp7.style.display = 'none';
+    gct.style.display = 'block';
+    label.innerHTML = 'RCT Digis from GCT';
+  } else {
+    ctp7.style.display = 'block';
+    gct.style.display = 'none';
+    label.innerHTML = 'RCT Digis from CTP7';
+  }
+}
+</script>
+EOF
+
+  echo '<div id="fromCTP7" style="display: block;">' >> index.html
+  for img in *_L1TdeRCT.png ; do
     echo Generating thumbnail for $img...
     convert -scale 240 $img thumb-$img
     echo "<a href=\"$img\"><img src=\"thumb-$img\"></a> " >> index.html
   done
+  echo '</div>' >> index.html
 
+  echo '<div id="fromGCT" style="display: none;">' >> index.html
+  for img in *_L1TdeRCT_FromGCT.png ; do
+    echo Generating thumbnail for $img...
+    convert -scale 240 $img thumb-$img
+    echo "<a href=\"$img\"><img src=\"thumb-$img\"></a> " >> index.html
+  done
+  echo '</div>' >> index.html
+  
+  echo '<input type="button" onclick="togglePlots()" value="Toggle!" /><br />' >> index.html
   echo "<br />Webpage generated on: " `date ` >> index.html
 
   echo "</body></html>" >> index.html

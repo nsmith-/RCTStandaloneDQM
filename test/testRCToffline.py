@@ -22,6 +22,12 @@ process.dqmSaver.workflow = cms.untracked.string('/L1TMonitor/Calo/RCTOffline')
 
 process.load("DQM.RCTStandaloneDQM.L1TRCToffline_cff")
 
+# Add folder for GCT sourced digis
+process.l1tderctFromGCT = process.l1tderct.clone()
+process.l1tderctFromGCT.HistFolder = cms.untracked.string("L1TEMU/L1TdeRCT_FromGCT")
+process.l1tderctFromGCT.rctSourceData = cms.InputTag("gctDigis")
+process.l1tderctFromGCT.selectBX = cms.untracked.int32(0)
+
 process.load( "EventFilter.RctRawToDigi.l1RctHwDigis_cfi" )
 process.l1RctHwDigis.inputLabel = cms.InputTag( "rawDataCollector" )
 process.l1RctHwDigis.verbose = cms.untracked.bool( True )
@@ -34,7 +40,7 @@ process.qTester = cms.EDAnalyzer("QualityTester",
     verboseQT       = cms.untracked.bool      (True),
 )
 
-process.p = cms.Path(process.l1RctHwDigis*process.rctdqm*process.qTester*process.dqmSaver)
+process.p = cms.Path(process.l1RctHwDigis*process.rctdqm*process.l1tderctFromGCT*process.qTester*process.dqmSaver)
 
 process.maxEvents = cms.untracked.PSet(
     input = cms.untracked.int32(60000)

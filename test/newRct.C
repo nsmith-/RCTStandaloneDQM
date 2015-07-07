@@ -185,7 +185,7 @@ void init() {
 
   c1 = new TCanvas;
 
-  dummybox = new TH2F("dummy", "; GCT #eta; GCT #phi", 22, -0.5, 21.5, 18, -0.5, 17.5);
+  dummybox = new TH2F("dummy", "; RCT #eta; RCT #phi", 22, -0.5, 21.5, 18, -0.5, 17.5);
 
   for (Int_t i = 0; i < paletteSize; i++) {
     rgb[3 * i + 0] = 0.0;
@@ -313,7 +313,7 @@ void readQualityTests(TString fileName, TString dirName) {
   }
 }
 
-void newRct(TString runString) {
+void newRct(TString runString, TString runSummarySubfolder) {
   setTDRStyle();
 
   runNumber = runString;
@@ -322,11 +322,16 @@ void newRct(TString runString) {
 
   f = new TFile("run" + runNumber + ".root");
 
-  d = f->GetDirectory("DQMData/Run "+runNumber+"/L1TEMU/Run summary/L1TdeRCT");
+  d = f->GetDirectory("DQMData/Run "+runNumber+"/L1TEMU/Run summary/"+runSummarySubfolder);
+  if ( d == nullptr ) {
+    cout << "The directory path expected in the file was not found: " << endl;
+    cout << "DQMData/Run "+runNumber+"/L1TEMU/Run summary/"+runSummarySubfolder << endl;
+    return;
+  }
 
   ofstream description;
 
-  description.open("run" + runNumber + "/description.txt", ios::app);
+  description.open("run" + runNumber + "/description_" + runSummarySubfolder + ".txt", ios::app);
 
   TH2F* rctInputTPGEcalOcc = (TH2F*)d->Get("rctInputTPGEcalOcc");
   TH2F* rctInputTPGHcalOcc = (TH2F*)d->Get("rctInputTPGHcalOcc");
@@ -336,89 +341,72 @@ void newRct(TString runString) {
   gStyle->SetOptStat("e");
 
   rctInputTPGEcalOcc->SetTitle("ECAL TPG occupancy");
-  rctInputTPGEcalOcc->SetXTitle("GCT #eta");
-  rctInputTPGEcalOcc->SetYTitle("GCT #phi");
+  rctInputTPGEcalOcc->SetXTitle("RCT #eta");
+  rctInputTPGEcalOcc->SetYTitle("RCT #phi");
   rctInputTPGEcalOcc->Draw("box");
-  c1->SaveAs("./run" + runNumber + "/ecalTpgOcc.png");
+  c1->SaveAs("./run" + runNumber + "/ecalTpgOcc_" + runSummarySubfolder + ".png");
 
   rctInputTPGHcalOcc->SetTitle("HCAL TPG occupancy");
-  rctInputTPGHcalOcc->SetXTitle("GCT #eta");
-  rctInputTPGHcalOcc->SetYTitle("GCT #phi");
+  rctInputTPGHcalOcc->SetXTitle("RCT #eta");
+  rctInputTPGHcalOcc->SetYTitle("RCT #phi");
   rctInputTPGHcalOcc->Draw("box");
-  c1->SaveAs("./run" + runNumber + "/hcalTpgOcc.png");
+  c1->SaveAs("./run" + runNumber + "/hcalTpgOcc_" + runSummarySubfolder + ".png");
 
-  d = f->GetDirectory("DQMData/Run "+runNumber+"/L1TEMU/Run summary/L1TdeRCT/BitData/ServiceData");
+  d = f->GetDirectory("DQMData/Run "+runNumber+"/L1TEMU/Run summary/"+runSummarySubfolder+"/BitData/ServiceData");
 
   TH2F* rctBitDataHfPlusTau2D = (TH2F*)d->Get("rctBitDataHfPlusTau2D");
-  TH2F* rctBitDataMip2D       = (TH2F*)d->Get("rctBitDataMip2D");
   TH2F* rctBitDataOverFlow2D  = (TH2F*)d->Get("rctBitDataOverFlow2D");
   // TH2F* rctBitDataQuiet2D     = (TH2F*)d->Get("rctBitDataQuiet2D");
   TH2F* rctBitEmulHfPlusTau2D = (TH2F*)d->Get("rctBitEmulHfPlusTau2D");
-  TH2F* rctBitEmulMip2D       = (TH2F*)d->Get("rctBitEmulMip2D");
   TH2F* rctBitEmulOverFlow2D  = (TH2F*)d->Get("rctBitEmulOverFlow2D");
   // TH2F* rctBitEmulQuiet2D     = (TH2F*)d->Get("rctBitEmulQuiet2D");
 
   rctBitDataHfPlusTau2D->SetTitle("HF + tau bit occupancy from data");
-  rctBitDataHfPlusTau2D->SetXTitle("GCT #eta");
-  rctBitDataHfPlusTau2D->SetYTitle("GCT #phi");
+  rctBitDataHfPlusTau2D->SetXTitle("RCT #eta");
+  rctBitDataHfPlusTau2D->SetYTitle("RCT #phi");
   rctBitDataHfPlusTau2D->Draw("box");
-  c1->SaveAs("./run" + runNumber + "/hfPlusTauOccData.png");
-
-  rctBitDataMip2D->SetTitle("MIP bit occupancy from data");
-  rctBitDataMip2D->SetXTitle("GCT #eta");
-  rctBitDataMip2D->SetYTitle("GCT #phi");
-  rctBitDataMip2D->Draw("box");
-  c1->SaveAs("./run" + runNumber + "/mipOccData.png");
+  c1->SaveAs("./run" + runNumber + "/hfPlusTauOccData_" + runSummarySubfolder + ".png");
 
   rctBitDataOverFlow2D->SetTitle("Overflow bit occupancy from data");
-  rctBitDataOverFlow2D->SetXTitle("GCT #eta");
-  rctBitDataOverFlow2D->SetYTitle("GCT #phi");
+  rctBitDataOverFlow2D->SetXTitle("RCT #eta");
+  rctBitDataOverFlow2D->SetYTitle("RCT #phi");
   rctBitDataOverFlow2D->Draw("box");
-  c1->SaveAs("./run" + runNumber + "/overFlowOccData.png");
+  c1->SaveAs("./run" + runNumber + "/overFlowOccData_" + runSummarySubfolder + ".png");
 
   // rctBitDataQuiet2D->SetTitle("Quiet bit occupancy from data");
-  // rctBitDataQuiet2D->SetXTitle("GCT #eta");
-  // rctBitDataQuiet2D->SetYTitle("GCT #phi");
+  // rctBitDataQuiet2D->SetXTitle("RCT #eta");
+  // rctBitDataQuiet2D->SetYTitle("RCT #phi");
   // rctBitDataQuiet2D->Draw("box");
-  // c1->SaveAs("./run" + runNumber + "/quietOccData.png");
+  // c1->SaveAs("./run" + runNumber + "/quietOccData_" + runSummarySubfolder + ".png");
 
   rctBitEmulHfPlusTau2D->SetTitle("HF + tau bit occupancy from emulator");
-  rctBitEmulHfPlusTau2D->SetXTitle("GCT #eta");
-  rctBitEmulHfPlusTau2D->SetYTitle("GCT #phi");
+  rctBitEmulHfPlusTau2D->SetXTitle("RCT #eta");
+  rctBitEmulHfPlusTau2D->SetYTitle("RCT #phi");
   rctBitEmulHfPlusTau2D->Draw("box");
-  c1->SaveAs("./run" + runNumber + "/hfPlusTauOccEmul.png");
-
-  rctBitEmulMip2D->SetTitle("MIP bit occupancy from emulator");
-  rctBitEmulMip2D->SetXTitle("GCT #eta");
-  rctBitEmulMip2D->SetYTitle("GCT #phi");
-  rctBitEmulMip2D->Draw("box");
-  c1->SaveAs("./run" + runNumber + "/mipOccEmul.png");
+  c1->SaveAs("./run" + runNumber + "/hfPlusTauOccEmul_" + runSummarySubfolder + ".png");
 
   rctBitEmulOverFlow2D->SetTitle("Overflow bit occupancy from emulator");
-  rctBitEmulOverFlow2D->SetXTitle("GCT #eta");
-  rctBitEmulOverFlow2D->SetYTitle("GCT #phi");
+  rctBitEmulOverFlow2D->SetXTitle("RCT #eta");
+  rctBitEmulOverFlow2D->SetYTitle("RCT #phi");
   rctBitEmulOverFlow2D->Draw("box");
-  c1->SaveAs("./run" + runNumber + "/overFlowOccEmul.png");
+  c1->SaveAs("./run" + runNumber + "/overFlowOccEmul_" + runSummarySubfolder + ".png");
 
   // rctBitEmulQuiet2D->SetTitle("Quiet bit occupancy from emulator");
-  // rctBitEmulQuiet2D->SetXTitle("GCT #eta");
-  // rctBitEmulQuiet2D->SetYTitle("GCT #phi");
+  // rctBitEmulQuiet2D->SetXTitle("RCT #eta");
+  // rctBitEmulQuiet2D->SetYTitle("RCT #phi");
   // rctBitEmulQuiet2D->Draw("box");
-  // c1->SaveAs("./run" + runNumber + "/quietOccEmul.png");
+  // c1->SaveAs("./run" + runNumber + "/quietOccEmul_" + runSummarySubfolder + ".png");
 
-  d = f->GetDirectory("DQMData/Run "+runNumber+"/L1TEMU/Run summary/L1TdeRCT/BitData");
-  readQualityTests("run" + runNumber + ".root", "DQMData/Run "+runNumber+"/L1TEMU/Run summary/L1TdeRCT/BitData");
+  d = f->GetDirectory("DQMData/Run "+runNumber+"/L1TEMU/Run summary/"+runSummarySubfolder+"/BitData");
+  readQualityTests("run" + runNumber + ".root", "DQMData/Run "+runNumber+"/L1TEMU/Run summary/"+runSummarySubfolder+"/BitData");
 
   TH2F* rctBitHfPlusTauEff2D     = (TH2F*)d->Get("rctBitHfPlusTauEff2D");
-  TH2F* rctBitMipEff2D           = (TH2F*)d->Get("rctBitMipEff2D");
   TH2F* rctBitOverFlowEff2D      = (TH2F*)d->Get("rctBitOverFlowEff2D");
   // TH2F* rctBitQuietEff2D         = (TH2F*)d->Get("rctBitQuietEff2D");
   TH2F* rctBitHfPlusTauIneff2D   = (TH2F*)d->Get("rctBitHfPlusTauIneff2D");
-  TH2F* rctBitMipIneff2D         = (TH2F*)d->Get("rctBitMipIneff2D");
   TH2F* rctBitOverFlowIneff2D    = (TH2F*)d->Get("rctBitOverFlowIneff2D");
   // TH2F* rctBitQuietIneff2D       = (TH2F*)d->Get("rctBitQuietIneff2D");
   TH2F* rctBitHfPlusTauOvereff2D = (TH2F*)d->Get("rctBitHfPlusTauOvereff2D");
-  TH2F* rctBitMipOvereff2D       = (TH2F*)d->Get("rctBitMipOvereff2D");
   TH2F* rctBitOverFlowOvereff2D  = (TH2F*)d->Get("rctBitOverFlowOvereff2D");
   // TH2F* rctBitQuietOvereff2D     = (TH2F*)d->Get("rctBitQuietOvereff2D");
 
@@ -433,29 +421,16 @@ void newRct(TString runString) {
   TCanvas* c2 = new TCanvas("c2", "", 632, 540);
 
   rctBitHfPlusTauEff2D->SetTitle("HF + tau bit efficiency");
-  rctBitHfPlusTauEff2D->SetXTitle("GCT #eta");
-  rctBitHfPlusTauEff2D->SetYTitle("GCT #phi");
+  rctBitHfPlusTauEff2D->SetXTitle("RCT #eta");
+  rctBitHfPlusTauEff2D->SetYTitle("RCT #phi");
   rctBitHfPlusTauEff2D->SetMinimum(0.005);
   rctBitHfPlusTauEff2D->SetMaximum(1.0);
   rctBitHfPlusTauEff2D->Draw("colz");
   dummybox->Draw("box, same");
-  c2->SaveAs("./run" + runNumber + "/hfPlusTauEff.png");
+  c2->SaveAs("./run" + runNumber + "/hfPlusTauEff_" + runSummarySubfolder + ".png");
 
   gStyle->SetTitleFillColor(kWhite);
-  if (meMap["rctBitMipEff2D"] != "100") {
-    gStyle->SetTitleFillColor(kRed);
-    description << "rctBitMipEff2D, ";
-  }
   TCanvas* c3 = new TCanvas("c3", "", 632, 540);
-
-  rctBitMipEff2D->SetTitle("MIP bit efficiency");
-  rctBitMipEff2D->SetXTitle("GCT #eta");
-  rctBitMipEff2D->SetYTitle("GCT #phi");
-  rctBitMipEff2D->SetMinimum(0.005);
-  rctBitMipEff2D->SetMaximum(1.0);
-  rctBitMipEff2D->Draw("colz");
-  dummybox->Draw("box, same");
-  c3->SaveAs("./run" + runNumber + "/mipEff.png");
 
   gStyle->SetTitleFillColor(kWhite);
   if (meMap["rctBitOverFlowEff2D"] != "100") {
@@ -465,13 +440,13 @@ void newRct(TString runString) {
   TCanvas* c4 = new TCanvas("c4", "", 632, 540);
 
   rctBitOverFlowEff2D->SetTitle("Overflow bit efficiency");
-  rctBitOverFlowEff2D->SetXTitle("GCT #eta");
-  rctBitOverFlowEff2D->SetYTitle("GCT #phi");
+  rctBitOverFlowEff2D->SetXTitle("RCT #eta");
+  rctBitOverFlowEff2D->SetYTitle("RCT #phi");
   rctBitOverFlowEff2D->SetMinimum(0.005);
   rctBitOverFlowEff2D->SetMaximum(1.0);
   rctBitOverFlowEff2D->Draw("colz");
   dummybox->Draw("box, same");
-  c4->SaveAs("./run" + runNumber + "/overFlowEff.png");
+  c4->SaveAs("./run" + runNumber + "/overFlowEff_" + runSummarySubfolder + ".png");
 
 //   gStyle->SetTitleFillColor(kWhite);
 //   if (meMap["rctBitQuietEff2D"] != "100") {
@@ -481,13 +456,13 @@ void newRct(TString runString) {
 //   TCanvas* c5 = new TCanvas("c5", "", 632, 540);
 //
 //   rctBitQuietEff2D->SetTitle("Quiet bit efficiency");
-//   rctBitQuietEff2D->SetXTitle("GCT #eta");
-//   rctBitQuietEff2D->SetYTitle("GCT #phi");
+//   rctBitQuietEff2D->SetXTitle("RCT #eta");
+//   rctBitQuietEff2D->SetYTitle("RCT #phi");
 //   rctBitQuietEff2D->SetMinimum(0.005);
 //   rctBitQuietEff2D->SetMaximum(1.0);
 //   rctBitQuietEff2D->Draw("colz");
 //   dummybox->Draw("box, same");
-//   c5->SaveAs("./run" + runNumber + "/quietEff.png");
+//   c5->SaveAs("./run" + runNumber + "/quietEff_" + runSummarySubfolder + ".png");
 
   gStyle->SetPalette (paletteSize, pIneff);
 
@@ -499,29 +474,13 @@ void newRct(TString runString) {
   TCanvas* c6 = new TCanvas("c6", "", 632, 540);
 
   rctBitHfPlusTauIneff2D->SetTitle("HF + tau bit inefficiency");
-  rctBitHfPlusTauIneff2D->SetXTitle("GCT #eta");
-  rctBitHfPlusTauIneff2D->SetYTitle("GCT #phi");
+  rctBitHfPlusTauIneff2D->SetXTitle("RCT #eta");
+  rctBitHfPlusTauIneff2D->SetYTitle("RCT #phi");
   rctBitHfPlusTauIneff2D->SetMinimum(0.005);
   rctBitHfPlusTauIneff2D->SetMaximum(1.0);
   rctBitHfPlusTauIneff2D->Draw("colz");
   dummybox->Draw("box, same");
-  c6->SaveAs("./run" + runNumber + "/hfPlusTauInEff.png");
-
-  gStyle->SetTitleFillColor(kWhite);
-  if (meMap["rctBitMipIneff2D"] != "100") {
-    gStyle->SetTitleFillColor(kRed);
-    description << "rctBitMipIneff2D, ";
-  }
-  TCanvas* c7 = new TCanvas("c7", "", 632, 540);
-
-  rctBitMipIneff2D->SetTitle("MIP bit inefficiency");
-  rctBitMipIneff2D->SetXTitle("GCT #eta");
-  rctBitMipIneff2D->SetYTitle("GCT #phi");
-  rctBitMipIneff2D->SetMinimum(0.005);
-  rctBitMipIneff2D->SetMaximum(1.0);
-  rctBitMipIneff2D->Draw("colz");
-  dummybox->Draw("box, same");
-  c7->SaveAs("./run" + runNumber + "/mipInEff.png");
+  c6->SaveAs("./run" + runNumber + "/hfPlusTauInEff_" + runSummarySubfolder + ".png");
 
   gStyle->SetTitleFillColor(kWhite);
   if (meMap["rctBitOverFlowIneff2D"] != "100") {
@@ -531,13 +490,13 @@ void newRct(TString runString) {
   TCanvas* c8 = new TCanvas("c8", "", 632, 540);
 
   rctBitOverFlowIneff2D->SetTitle("Overflow bit inefficiency");
-  rctBitOverFlowIneff2D->SetXTitle("GCT #eta");
-  rctBitOverFlowIneff2D->SetYTitle("GCT #phi");
+  rctBitOverFlowIneff2D->SetXTitle("RCT #eta");
+  rctBitOverFlowIneff2D->SetYTitle("RCT #phi");
   rctBitOverFlowIneff2D->SetMinimum(0.005);
   rctBitOverFlowIneff2D->SetMaximum(1.0);
   rctBitOverFlowIneff2D->Draw("colz");
   dummybox->Draw("box, same");
-  c8->SaveAs("./run" + runNumber + "/overFlowInEff.png");
+  c8->SaveAs("./run" + runNumber + "/overFlowInEff_" + runSummarySubfolder + ".png");
 
 //   gStyle->SetTitleFillColor(kWhite);
 //   if (meMap["rctBitQuietIneff2D"] != "100") {
@@ -547,13 +506,13 @@ void newRct(TString runString) {
 //   TCanvas* c9 = new TCanvas("c9", "", 632, 540);
 //
 //   rctBitQuietIneff2D->SetTitle("Quiet bit inefficiency");
-//   rctBitQuietIneff2D->SetXTitle("GCT #eta");
-//   rctBitQuietIneff2D->SetYTitle("GCT #phi");
+//   rctBitQuietIneff2D->SetXTitle("RCT #eta");
+//   rctBitQuietIneff2D->SetYTitle("RCT #phi");
 //   rctBitQuietIneff2D->SetMinimum(0.005);
 //   rctBitQuietIneff2D->SetMaximum(1.0);
 //   rctBitQuietIneff2D->Draw("colz");
 //   dummybox->Draw("box, same");
-//   c9->SaveAs("./run" + runNumber + "/quietInEff.png");
+//   c9->SaveAs("./run" + runNumber + "/quietInEff_" + runSummarySubfolder + ".png");
 
   gStyle->SetPalette (paletteSize, pOvereff);
 
@@ -565,29 +524,13 @@ void newRct(TString runString) {
   TCanvas* c10 = new TCanvas("c10", "", 632, 540);
 
   rctBitHfPlusTauOvereff2D->SetTitle("HF + tau bit overefficiency");
-  rctBitHfPlusTauOvereff2D->SetXTitle("GCT #eta");
-  rctBitHfPlusTauOvereff2D->SetYTitle("GCT #phi");
+  rctBitHfPlusTauOvereff2D->SetXTitle("RCT #eta");
+  rctBitHfPlusTauOvereff2D->SetYTitle("RCT #phi");
   rctBitHfPlusTauOvereff2D->SetMinimum(0.005);
   rctBitHfPlusTauOvereff2D->SetMaximum(1.0);
   rctBitHfPlusTauOvereff2D->Draw("colz");
   dummybox->Draw("box, same");
-  c10->SaveAs("./run" + runNumber + "/hfPlusTauOverEff.png");
-
-  gStyle->SetTitleFillColor(kWhite);
-  if (meMap["rctBitMipOvereff2D"] != "100") {
-    gStyle->SetTitleFillColor(kRed);
-    description << "rctBitMipOvereff2D, ";
-  }
-  TCanvas* c11 = new TCanvas("c11", "", 632, 540);
-
-  rctBitMipOvereff2D->SetTitle("MIP bit overefficiency");
-  rctBitMipOvereff2D->SetXTitle("GCT #eta");
-  rctBitMipOvereff2D->SetYTitle("GCT #phi");
-  rctBitMipOvereff2D->SetMinimum(0.005);
-  rctBitMipOvereff2D->SetMaximum(1.0);
-  rctBitMipOvereff2D->Draw("colz");
-  dummybox->Draw("box, same");
-  c11->SaveAs("./run" + runNumber + "/mipOverEff.png");
+  c10->SaveAs("./run" + runNumber + "/hfPlusTauOverEff_" + runSummarySubfolder + ".png");
 
   gStyle->SetTitleFillColor(kWhite);
   if (meMap["rctBitOverFlowOvereff2D"] != "100") {
@@ -597,13 +540,13 @@ void newRct(TString runString) {
   TCanvas* c12 = new TCanvas("c12", "", 632, 540);
 
   rctBitOverFlowOvereff2D->SetTitle("Overflow bit overefficiency");
-  rctBitOverFlowOvereff2D->SetXTitle("GCT #eta");
-  rctBitOverFlowOvereff2D->SetYTitle("GCT #phi");
+  rctBitOverFlowOvereff2D->SetXTitle("RCT #eta");
+  rctBitOverFlowOvereff2D->SetYTitle("RCT #phi");
   rctBitOverFlowOvereff2D->SetMinimum(0.005);
   rctBitOverFlowOvereff2D->SetMaximum(1.0);
   rctBitOverFlowOvereff2D->Draw("colz");
   dummybox->Draw("box, same");
-  c12->SaveAs("./run" + runNumber + "/overFlowOverEff.png");
+  c12->SaveAs("./run" + runNumber + "/overFlowOverEff_" + runSummarySubfolder + ".png");
 
 //   gStyle->SetTitleFillColor(kWhite);
 //   if (meMap["rctBitQuietOvereff2D"] != "100") {
@@ -613,15 +556,15 @@ void newRct(TString runString) {
 //   TCanvas* c13 = new TCanvas("c13", "", 632, 540);
 //
 //   rctBitQuietOvereff2D->SetTitle("Quiet bit overefficiency");
-//   rctBitQuietOvereff2D->SetXTitle("GCT #eta");
-//   rctBitQuietOvereff2D->SetYTitle("GCT #phi");
+//   rctBitQuietOvereff2D->SetXTitle("RCT #eta");
+//   rctBitQuietOvereff2D->SetYTitle("RCT #phi");
 //   rctBitQuietOvereff2D->SetMinimum(0.005);
 //   rctBitQuietOvereff2D->SetMaximum(1.0);
 //   rctBitQuietOvereff2D->Draw("colz");
 //   dummybox->Draw("box, same");
-//   c13->SaveAs("./run" + runNumber + "/quietOverEff.png");
+//   c13->SaveAs("./run" + runNumber + "/quietOverEff_" + runSummarySubfolder + ".png");
 
-  d = f->GetDirectory("DQMData/Run "+runNumber+"/L1TEMU/Run summary/L1TdeRCT/NisoEm/ServiceData");
+  d = f->GetDirectory("DQMData/Run "+runNumber+"/L1TEMU/Run summary/"+runSummarySubfolder+"/NisoEm/ServiceData");
 
   TH2F* rctNisoEmDataOcc = (TH2F*)d->Get("rctNisoEmDataOcc");
   TH2F* rctNisoEmEmulOcc = (TH2F*)d->Get("rctNisoEmEmulOcc");
@@ -630,20 +573,20 @@ void newRct(TString runString) {
 
   TCanvas* ca1 = new TCanvas("ca1", "", 632, 540);
   rctNisoEmDataOcc->SetTitle("Nonisolated electron occupancy from data");
-  rctNisoEmDataOcc->SetXTitle("GCT #eta");
-  rctNisoEmDataOcc->SetYTitle("GCT #phi");
+  rctNisoEmDataOcc->SetXTitle("RCT #eta");
+  rctNisoEmDataOcc->SetYTitle("RCT #phi");
   rctNisoEmDataOcc->Draw("box");
-  ca1->SaveAs("./run" + runNumber + "/nonIsoOccData.png");
+  ca1->SaveAs("./run" + runNumber + "/nonIsoOccData_" + runSummarySubfolder + ".png");
 
   TCanvas* ca2 = new TCanvas("ca2", "", 632, 540);
   rctNisoEmEmulOcc->SetTitle("Nonisolated electron occupancy from emulator");
-  rctNisoEmEmulOcc->SetXTitle("GCT #eta");
-  rctNisoEmEmulOcc->SetYTitle("GCT #phi");
+  rctNisoEmEmulOcc->SetXTitle("RCT #eta");
+  rctNisoEmEmulOcc->SetYTitle("RCT #phi");
   rctNisoEmEmulOcc->Draw("box");
-  ca2->SaveAs("./run" + runNumber + "/nonIsoOccEmul.png");
+  ca2->SaveAs("./run" + runNumber + "/nonIsoOccEmul_" + runSummarySubfolder + ".png");
 
-  d = f->GetDirectory("DQMData/Run "+runNumber+"/L1TEMU/Run summary/L1TdeRCT/NisoEm");
-  readQualityTests("run" + runNumber + ".root", "DQMData/Run "+runNumber+"/L1TEMU/Run summary/L1TdeRCT/NisoEm");
+  d = f->GetDirectory("DQMData/Run "+runNumber+"/L1TEMU/Run summary/"+runSummarySubfolder+"/NisoEm");
+  readQualityTests("run" + runNumber + ".root", "DQMData/Run "+runNumber+"/L1TEMU/Run summary/"+runSummarySubfolder+"/NisoEm");
 
   TH2F* rctNisoEmEff1    = (TH2F*)d->Get("rctNisoEmEff1");
   TH2F* rctNisoEmEff2    = (TH2F*)d->Get("rctNisoEmEff2");
@@ -661,13 +604,13 @@ void newRct(TString runString) {
   TCanvas* c14 = new TCanvas("c14", "", 632, 540);
 
   rctNisoEmEff1->SetTitle("Nonisolated electron efficiency 1");
-  rctNisoEmEff1->SetXTitle("GCT #eta");
-  rctNisoEmEff1->SetYTitle("GCT #phi");
+  rctNisoEmEff1->SetXTitle("RCT #eta");
+  rctNisoEmEff1->SetYTitle("RCT #phi");
   rctNisoEmEff1->SetMinimum(0.005);
   rctNisoEmEff1->SetMaximum(1.0);
   rctNisoEmEff1->Draw("colz");
   dummybox->Draw("box, same");
-  c14->SaveAs("./run" + runNumber + "/nonIsoEff1.png");
+  c14->SaveAs("./run" + runNumber + "/nonIsoEff1_" + runSummarySubfolder + ".png");
 
   gStyle->SetTitleFillColor(kWhite);
   if (meMap["rctNisoEmEff2"] != "100" ||meMap["rctNisoEmEff2oneD"] != "100") {
@@ -677,13 +620,13 @@ void newRct(TString runString) {
   TCanvas* c15 = new TCanvas("c15", "", 632, 540);
 
   rctNisoEmEff2->SetTitle("Nonisolated electron efficiency 2");
-  rctNisoEmEff2->SetXTitle("GCT #eta");
-  rctNisoEmEff2->SetYTitle("GCT #phi");
+  rctNisoEmEff2->SetXTitle("RCT #eta");
+  rctNisoEmEff2->SetYTitle("RCT #phi");
   rctNisoEmEff2->SetMinimum(0.005);
   rctNisoEmEff2->SetMaximum(1.0);
   rctNisoEmEff2->Draw("colz");
   dummybox->Draw("box, same");
-  c15->SaveAs("./run" + runNumber + "/nonIsoEff2.png");
+  c15->SaveAs("./run" + runNumber + "/nonIsoEff2_" + runSummarySubfolder + ".png");
 
   gStyle->SetPalette (paletteSize, pIneff);
 
@@ -695,13 +638,13 @@ void newRct(TString runString) {
   TCanvas* c16 = new TCanvas("c16", "", 632, 540);
 
   rctNisoEmIneff->SetTitle("Nonisolated electron inefficiency");
-  rctNisoEmIneff->SetXTitle("GCT #eta");
-  rctNisoEmIneff->SetYTitle("GCT #phi");
+  rctNisoEmIneff->SetXTitle("RCT #eta");
+  rctNisoEmIneff->SetYTitle("RCT #phi");
   rctNisoEmIneff->SetMinimum(0.005);
   rctNisoEmIneff->SetMaximum(1.0);
   rctNisoEmIneff->Draw("colz");
   dummybox->Draw("box, same");
-  c16->SaveAs("./run" + runNumber + "/nonIsoInEff.png");
+  c16->SaveAs("./run" + runNumber + "/nonIsoInEff_" + runSummarySubfolder + ".png");
 
   gStyle->SetPalette (paletteSize, pOvereff);
 
@@ -713,17 +656,17 @@ void newRct(TString runString) {
   TCanvas* c17 = new TCanvas("c17", "", 632, 540);
 
   rctNisoEmOvereff->SetTitle("Nonisolated electron overefficiency");
-  rctNisoEmOvereff->SetXTitle("GCT #eta");
-  rctNisoEmOvereff->SetYTitle("GCT #phi");
+  rctNisoEmOvereff->SetXTitle("RCT #eta");
+  rctNisoEmOvereff->SetYTitle("RCT #phi");
   rctNisoEmOvereff->SetMinimum(0.005);
   rctNisoEmOvereff->SetMaximum(1.0);
   rctNisoEmOvereff->Draw("colz");
   dummybox->Draw("box, same");
-  c17->SaveAs("./run" + runNumber + "/nonIsoOverEff.png");
+  c17->SaveAs("./run" + runNumber + "/nonIsoOverEff_" + runSummarySubfolder + ".png");
 
   gStyle->SetTitleFillColor(kWhite);
 
-  d = f->GetDirectory("DQMData/Run "+runNumber+"/L1TEMU/Run summary/L1TdeRCT/IsoEm/ServiceData");
+  d = f->GetDirectory("DQMData/Run "+runNumber+"/L1TEMU/Run summary/"+runSummarySubfolder+"/IsoEm/ServiceData");
 
   TH2F* rctIsoEmDataOcc = (TH2F*)d->Get("rctIsoEmDataOcc");
   TH2F* rctIsoEmEmulOcc = (TH2F*)d->Get("rctIsoEmEmulOcc");
@@ -732,20 +675,20 @@ void newRct(TString runString) {
 
   TCanvas* cb1 = new TCanvas("cb1", "", 632, 540);
   rctIsoEmDataOcc->SetTitle("Isolated electron occupancy from data");
-  rctIsoEmDataOcc->SetXTitle("GCT #eta");
-  rctIsoEmDataOcc->SetYTitle("GCT #phi");
+  rctIsoEmDataOcc->SetXTitle("RCT #eta");
+  rctIsoEmDataOcc->SetYTitle("RCT #phi");
   rctIsoEmDataOcc->Draw("box");
-  cb1->SaveAs("./run" + runNumber + "/isoOccData.png");
+  cb1->SaveAs("./run" + runNumber + "/isoOccData_" + runSummarySubfolder + ".png");
 
   TCanvas* cb2 = new TCanvas("cb2", "", 632, 540);
   rctIsoEmEmulOcc->SetTitle("Isolated electron occupancy from emulator");
-  rctIsoEmEmulOcc->SetXTitle("GCT #eta");
-  rctIsoEmEmulOcc->SetYTitle("GCT #phi");
+  rctIsoEmEmulOcc->SetXTitle("RCT #eta");
+  rctIsoEmEmulOcc->SetYTitle("RCT #phi");
   rctIsoEmEmulOcc->Draw("box");
-  cb2->SaveAs("./run" + runNumber + "/isoOccEmul.png");
+  cb2->SaveAs("./run" + runNumber + "/isoOccEmul_" + runSummarySubfolder + ".png");
 
-  d = f->GetDirectory("DQMData/Run "+runNumber+"/L1TEMU/Run summary/L1TdeRCT/IsoEm");
-  readQualityTests("run" + runNumber + ".root", "DQMData/Run "+runNumber+"/L1TEMU/Run summary/L1TdeRCT/IsoEm");
+  d = f->GetDirectory("DQMData/Run "+runNumber+"/L1TEMU/Run summary/"+runSummarySubfolder+"/IsoEm");
+  readQualityTests("run" + runNumber + ".root", "DQMData/Run "+runNumber+"/L1TEMU/Run summary/"+runSummarySubfolder+"/IsoEm");
 
   TH2F* rctIsoEmEff1    = (TH2F*)d->Get("rctIsoEmEff1");
   TH2F* rctIsoEmEff2    = (TH2F*)d->Get("rctIsoEmEff2");
@@ -762,13 +705,13 @@ void newRct(TString runString) {
   TCanvas* c18 = new TCanvas("c18", "", 632, 540);
 
   rctIsoEmEff1->SetTitle("Isolated electron efficiency 1");
-  rctIsoEmEff1->SetXTitle("GCT #eta");
-  rctIsoEmEff1->SetYTitle("GCT #phi");
+  rctIsoEmEff1->SetXTitle("RCT #eta");
+  rctIsoEmEff1->SetYTitle("RCT #phi");
   rctIsoEmEff1->SetMinimum(0.005);
   rctIsoEmEff1->SetMaximum(1.0);
   rctIsoEmEff1->Draw("colz");
   dummybox->Draw("box, same");
-  c18->SaveAs("./run" + runNumber + "/IsoEff1.png");
+  c18->SaveAs("./run" + runNumber + "/IsoEff1_" + runSummarySubfolder + ".png");
 
   gStyle->SetTitleFillColor(kWhite);
   if (meMap["rctIsoEmEff2"] != "100" || meMap["rctIsoEmEff2oneD"] != "100") {
@@ -778,13 +721,13 @@ void newRct(TString runString) {
   TCanvas* c19 = new TCanvas("c19", "", 632, 540);
 
   rctIsoEmEff2->SetTitle("Isolated electron efficiency 2");
-  rctIsoEmEff2->SetXTitle("GCT #eta");
-  rctIsoEmEff2->SetYTitle("GCT #phi");
+  rctIsoEmEff2->SetXTitle("RCT #eta");
+  rctIsoEmEff2->SetYTitle("RCT #phi");
   rctIsoEmEff2->SetMinimum(0.005);
   rctIsoEmEff2->SetMaximum(1.0);
   rctIsoEmEff2->Draw("colz");
   dummybox->Draw("box, same");
-  c19->SaveAs("./run" + runNumber + "/IsoEff2.png");
+  c19->SaveAs("./run" + runNumber + "/IsoEff2_" + runSummarySubfolder + ".png");
 
   gStyle->SetPalette (paletteSize, pIneff);
 
@@ -796,13 +739,13 @@ void newRct(TString runString) {
   TCanvas* c20 = new TCanvas("c20", "", 632, 540);
 
   rctIsoEmIneff->SetTitle("Isolated electron inefficiency");
-  rctIsoEmIneff->SetXTitle("GCT #eta");
-  rctIsoEmIneff->SetYTitle("GCT #phi");
+  rctIsoEmIneff->SetXTitle("RCT #eta");
+  rctIsoEmIneff->SetYTitle("RCT #phi");
   rctIsoEmIneff->SetMinimum(0.005);
   rctIsoEmIneff->SetMaximum(1.0);
   rctIsoEmIneff->Draw("colz");
   dummybox->Draw("box, same");
-  c20->SaveAs("./run" + runNumber + "/IsoInEff.png");
+  c20->SaveAs("./run" + runNumber + "/IsoInEff_" + runSummarySubfolder + ".png");
 
   gStyle->SetPalette (paletteSize, pOvereff);
 
@@ -814,17 +757,17 @@ void newRct(TString runString) {
   TCanvas* c21 = new TCanvas("c21", "", 632, 540);
 
   rctIsoEmOvereff->SetTitle("Isolated electron overefficiency");
-  rctIsoEmOvereff->SetXTitle("GCT #eta");
-  rctIsoEmOvereff->SetYTitle("GCT #phi");
+  rctIsoEmOvereff->SetXTitle("RCT #eta");
+  rctIsoEmOvereff->SetYTitle("RCT #phi");
   rctIsoEmOvereff->SetMinimum(0.005);
   rctIsoEmOvereff->SetMaximum(1.0);
   rctIsoEmOvereff->Draw("colz");
   dummybox->Draw("box, same");
-  c21->SaveAs("./run" + runNumber + "/IsoOverEff.png");
+  c21->SaveAs("./run" + runNumber + "/IsoOverEff_" + runSummarySubfolder + ".png");
 
   gStyle->SetTitleFillColor(kWhite);
 
-  d = f->GetDirectory("DQMData/Run "+runNumber+"/L1TEMU/Run summary/L1TdeRCT/RegionData/ServiceData");
+  d = f->GetDirectory("DQMData/Run "+runNumber+"/L1TEMU/Run summary/"+runSummarySubfolder+"/RegionData/ServiceData");
 
   TH2F* rctRegDataOcc2D = (TH2F*)d->Get("rctRegDataOcc2D");
   TH2F* rctRegEmulOcc2D = (TH2F*)d->Get("rctRegEmulOcc2D");
@@ -833,20 +776,20 @@ void newRct(TString runString) {
 
   TCanvas* cc1 = new TCanvas("cc1", "", 632, 540);
   rctRegDataOcc2D->SetTitle("Region occupancy from data");
-  rctRegDataOcc2D->SetXTitle("GCT #eta");
-  rctRegDataOcc2D->SetYTitle("GCT #phi");
+  rctRegDataOcc2D->SetXTitle("RCT #eta");
+  rctRegDataOcc2D->SetYTitle("RCT #phi");
   rctRegDataOcc2D->Draw("box");
-  cc1->SaveAs("./run" + runNumber + "/regOccData.png");
+  cc1->SaveAs("./run" + runNumber + "/regOccData_" + runSummarySubfolder + ".png");
 
   TCanvas* cc2 = new TCanvas("cc2", "", 632, 540);
   rctRegEmulOcc2D->SetTitle("Region occupancy from emulator");
-  rctRegEmulOcc2D->SetXTitle("GCT #eta");
-  rctRegEmulOcc2D->SetYTitle("GCT #phi");
+  rctRegEmulOcc2D->SetXTitle("RCT #eta");
+  rctRegEmulOcc2D->SetYTitle("RCT #phi");
   rctRegEmulOcc2D->Draw("box");
-  cc2->SaveAs("./run" + runNumber + "/regOccEmul.png");
+  cc2->SaveAs("./run" + runNumber + "/regOccEmul_" + runSummarySubfolder + ".png");
 
-  d = f->GetDirectory("DQMData/Run "+runNumber+"/L1TEMU/Run summary/L1TdeRCT/RegionData");
-  readQualityTests("run" + runNumber + ".root", "DQMData/Run "+runNumber+"/L1TEMU/Run summary/L1TdeRCT/RegionData");
+  d = f->GetDirectory("DQMData/Run "+runNumber+"/L1TEMU/Run summary/"+runSummarySubfolder+"/RegionData");
+  readQualityTests("run" + runNumber + ".root", "DQMData/Run "+runNumber+"/L1TEMU/Run summary/"+runSummarySubfolder+"/RegionData");
 
   TH2F* rctRegEff2D     = (TH2F*)d->Get("rctRegEff2D");
   TH2F* rctRegSpEff2D   = (TH2F*)d->Get("rctRegSpEff2D");
@@ -863,13 +806,13 @@ void newRct(TString runString) {
   TCanvas* c22 = new TCanvas("c22", "", 632, 540);
 
   rctRegEff2D->SetTitle("Region efficiency 1");
-  rctRegEff2D->SetXTitle("GCT #eta");
-  rctRegEff2D->SetYTitle("GCT #phi");
+  rctRegEff2D->SetXTitle("RCT #eta");
+  rctRegEff2D->SetYTitle("RCT #phi");
   rctRegEff2D->SetMinimum(0.005);
   rctRegEff2D->SetMaximum(1.0);
   rctRegEff2D->Draw("colz");
   dummybox->Draw("box, same");
-  c22->SaveAs("./run" + runNumber + "/regEff1.png");
+  c22->SaveAs("./run" + runNumber + "/regEff1_" + runSummarySubfolder + ".png");
 
   gStyle->SetTitleFillColor(kWhite);
   if (meMap["rctRegSpEff2D"] != "100" || meMap["rctRegSpEff1D"] != "100") {
@@ -879,13 +822,13 @@ void newRct(TString runString) {
   TCanvas* c23 = new TCanvas("c23", "", 632, 540);
 
   rctRegSpEff2D->SetTitle("Region efficiency 2");
-  rctRegSpEff2D->SetXTitle("GCT #eta");
-  rctRegSpEff2D->SetYTitle("GCT #phi");
+  rctRegSpEff2D->SetXTitle("RCT #eta");
+  rctRegSpEff2D->SetYTitle("RCT #phi");
   rctRegSpEff2D->SetMinimum(0.005);
   rctRegSpEff2D->SetMaximum(1.0);
   rctRegSpEff2D->Draw("colz");
   dummybox->Draw("box, same");
-  c23->SaveAs("./run" + runNumber + "/regEff2.png");
+  c23->SaveAs("./run" + runNumber + "/regEff2_" + runSummarySubfolder + ".png");
 
   gStyle->SetPalette (paletteSize, pIneff);
 
@@ -897,13 +840,13 @@ void newRct(TString runString) {
   TCanvas* c24 = new TCanvas("c24", "", 632, 540);
 
   rctRegIneff2D->SetTitle("Region inefficiency");
-  rctRegIneff2D->SetXTitle("GCT #eta");
-  rctRegIneff2D->SetYTitle("GCT #phi");
+  rctRegIneff2D->SetXTitle("RCT #eta");
+  rctRegIneff2D->SetYTitle("RCT #phi");
   rctRegIneff2D->SetMinimum(0.005);
   rctRegIneff2D->SetMaximum(1.0);
   rctRegIneff2D->Draw("colz");
   dummybox->Draw("box, same");
-  c24->SaveAs("./run" + runNumber + "/regInEff.png");
+  c24->SaveAs("./run" + runNumber + "/regInEff_" + runSummarySubfolder + ".png");
 
   gStyle->SetPalette (paletteSize, pOvereff);
 
@@ -915,11 +858,11 @@ void newRct(TString runString) {
   TCanvas* c25 = new TCanvas("c25", "", 632, 540);
 
   rctRegOvereff2D->SetTitle("Region overefficiency");
-  rctRegOvereff2D->SetXTitle("GCT #eta");
-  rctRegOvereff2D->SetYTitle("GCT #phi");
+  rctRegOvereff2D->SetXTitle("RCT #eta");
+  rctRegOvereff2D->SetYTitle("RCT #phi");
   rctRegOvereff2D->SetMinimum(0.005);
   rctRegOvereff2D->SetMaximum(1.0);
   rctRegOvereff2D->Draw("colz");
   dummybox->Draw("box, same");
-  c25->SaveAs("./run" + runNumber + "/regOverEff.png");
+  c25->SaveAs("./run" + runNumber + "/regOverEff_" + runSummarySubfolder + ".png");
 }
