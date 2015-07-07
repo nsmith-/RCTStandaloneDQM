@@ -26,7 +26,6 @@ process.load("DQM.RCTStandaloneDQM.L1TRCToffline_cff")
 process.l1tderctFromGCT = process.l1tderct.clone()
 process.l1tderctFromGCT.HistFolder = cms.untracked.string("L1TEMU/L1TdeRCT_FromGCT")
 process.l1tderctFromGCT.rctSourceData = cms.InputTag("gctDigis")
-process.l1tderctFromGCT.selectBX = cms.untracked.int32(0)
 
 process.load( "EventFilter.RctRawToDigi.l1RctHwDigis_cfi" )
 process.l1RctHwDigis.inputLabel = cms.InputTag( "rawDataCollector" )
