@@ -2,7 +2,7 @@ import das_client
 import json, datetime
 
 def today() :
-    return datetime.datetime.now()
+    return datetime.datetime.now().date()
 
 def daysAgo(n) :
     date = today()
@@ -21,6 +21,7 @@ def getRunsForDate(date, minlumis=10) :
     runs = {}
     for runDict in dasQuery(querystring, 'run') :
         runNo = int(runDict['run_number'])
+        runDict['date'] = datestring
         runs[runNo] = runDict
 
     return runs

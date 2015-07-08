@@ -33,7 +33,7 @@ genRunIndex ()
   echo Generating plots for Run \#${RUNNUMBER:3:6}
 
   echo "<html> <head> <title>Regional Calorimeter Trigger Data Quality Monitoring Page</title></head><body> " > index.html
-  echo "<h1>RCT DQM Plots<br /> RUN #${RUNNUMBER:3:6} </h1> " >> index.html
+  echo "<h1>RCT DQM Plots<br /> RUN <a href=\"https://cmswbm.web.cern.ch/cmswbm/cmsdb/servlet/RunSummary?RUN=${RUNNUMBER:3:6}\">#${RUNNUMBER:3:6}</a> </h1> " >> index.html
 
   cat <<EOF >> index.html
 <input type="button" onclick="togglePlots()" value="Toggle!" /><br />
@@ -120,7 +120,7 @@ do
     genRunIndex ${1}/${inputDir}
 
     echo Moving to ${2}
-    rm -r ${2}/${inputDir}
+    rm -rf ${2}/${inputDir}
     mv ${1}/${inputDir} ${2}
     fs setacl ${2}/${inputDir} webserver:afs read
 
