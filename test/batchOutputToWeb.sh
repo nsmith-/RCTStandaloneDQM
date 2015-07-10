@@ -7,6 +7,8 @@ if [ ! -d $webDirectory ]; then
   exit
 fi
 
+mkdir -p processed
+
 for file in outputs/*.root
 do
   [[ $file == 'outputs/*.root' ]] && break
@@ -15,6 +17,7 @@ do
   root -b -q -l "newRct.C++(\"${run}\", \"L1TdeRCT\")"
   root -b -q -l "newRct.C++(\"${run}\", \"L1TdeRCT_FromRCT\")"
   ./dumpPUMplots.py ${run}
+  mv $file processed/
   mkdir -p dqmAnalysis
   mv run${run} dqmAnalysis
   ./updateRctDqmWeb.sh dqmAnalysis ${webDirectory}
