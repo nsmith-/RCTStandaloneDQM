@@ -15,3 +15,5 @@ cmsenv
 cmsRun testRCToffline.py runNumber=${run} dataStream='${stream}' 2>/dev/null | grep -v '^1111$'
 EOF
 done
+
+rm newRuns.txt

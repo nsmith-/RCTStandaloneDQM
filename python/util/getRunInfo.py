@@ -1,4 +1,4 @@
-import das_client
+import das_client, rrClient
 import json, datetime
 
 def today() :
@@ -17,14 +17,18 @@ def getRunsForDate(date, minlumis=10) :
     '''
     datestring = date.strftime('%Y%m%d')
     querystring = "run date={date} | grep run.nlumis>{minlumis}".format(date=datestring, minlumis=minlumis)
+    return dasRunQueryToDict(querystring)
 
-    runs = {}
-    for runDict in dasQuery(querystring, 'run') :
-        runNo = int(runDict['run_number'])
-        runDict['date'] = datestring
-        runs[runNo] = runDict
-
-    return runs
+def getRunsNewer(run, minlumis=10, source='RunRegistry') :
+    '''
+        run: run number int
+        source: Either RunRegistry or DAS
+    '''
+    if source == 'RunRegistry' :
+        return rrClient.getRunsNewer(run, minlumis)
+    elif source == 'DAS' :
+        querystring = "run | grep run.nlumis>{minlumis}, run.runnumber>{run}".format(run=run, minlumis=minlumis)
+        return dasRunQueryToDict(querystring)
 
 def getFilesForRun(run, dataset) :
     '''
@@ -41,6 +45,17 @@ def getFilesForRun(run, dataset) :
         files.append(fileDict['name'].encode('ascii','replace'))
 
     return files
+
+
+# -------------------- DAS convert tools
+
+def dasRunQueryToDict(querystring) :
+    runs = {}
+    for runDict in dasQuery(querystring, 'run') :
+        runNo = int(runDict['run_number'])
+        runDict['date'] = datestring
+        runs[runNo] = runDict
+    return runs
 
 def dasQuery(queryString, entryTitle) :
     dasinfo = das_client.get_data('https://cmsweb.cern.ch', queryString, 0, 0, False)
