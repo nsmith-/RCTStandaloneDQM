@@ -27,6 +27,16 @@ for runDict in newRuns.values() :
         if name in runDict['runClassName'] :
             runDict['datasetUsed'] = dataset
 
+print 'Found %d new runs!' % len(newRuns)
+
+# Guard against runs being too new for DAS
+for runNo in sorted(newRuns.keys(), reverse=True) :
+    files = util.getFilesForRun(runNo, newRuns[runNo]['datasetUsed'])
+    if len(files) > 0 :
+        break
+    print 'Removing run %d due to no files present in DAS yet' % runNo
+    newRuns.pop(runNo)
+
 runCache.update(newRuns)
 
 with open('runCache.json', 'w') as cacheFile :
