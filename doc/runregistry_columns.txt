@@ -1,0 +1,158 @@
+Columns available in runsummary table in the run registry API
+
+Table:  runsummary
+    workspace (WorkspaceName) : Workspace
+    ttcmiKey (String) : Ttcmi Key
+    tscKey (String) : Tsc Key
+    triggers (Long) : Triggers
+    triggerMode (String) : Trigger Mode
+    triggerBase (String) : Trigger Base
+    trgPresent (Boolean) : TRG in?
+    trackerPresent (Boolean) : Tracker in?
+    tobReady (Boolean) : TOB on?
+    tibtidReady (Boolean) : TIBTID on?
+    testRun (Boolean) : Test?
+    tecpReady (Boolean) : TEC+ on?
+    tecmReady (Boolean) : TEC- on?
+    stopTime (Date) : Stopped
+    stopFlag (Boolean) : Stop Flag
+    startTime (Date) : Started
+    shortRun (Boolean) : Short?
+    sequenceName (String) : Sequence
+    scalPresent (Boolean) : SCAL in?
+    runStopReason (String) : Run Stop Reason
+    runLumi (BigDecimal) : Run Lumi
+    runLiveLumi (BigDecimal) : Run Live Lumi
+    runExists (Boolean) : Run Exists
+    runCreated (Date) : Run Created
+    runClassName (String) : Class
+    rpcReady (Boolean) : RPC on?
+    rpcPresent (Boolean) : RPC in?
+    pixelPresent (Boolean) : Pixel in?
+    ocoTime (Date) : Oco Time
+    number (Long) : Number
+    modified (Date) : Modified
+    lumiSectionRanges.updateTime (Date) : Ranges.Update Time
+    lumiSectionRanges.tobReady (Boolean) : Ranges.Tob Ready
+    lumiSectionRanges.tibtidReady (Boolean) : Ranges.Tibtid Ready
+    lumiSectionRanges.tecpReady (Boolean) : Ranges.Tecp Ready
+    lumiSectionRanges.tecmReady (Boolean) : Ranges.Tecm Ready
+    lumiSectionRanges.sectionTo (Long) : Ranges.Section To
+    lumiSectionRanges.sectionFrom (Long) : Ranges.Section From
+    lumiSectionRanges.sectionCount (Long) : Ranges.Section Count
+    lumiSectionRanges.runNumber (Long) : Ranges.Run Number
+    lumiSectionRanges.run (RunSummaryRowL1t) : Ranges.Run
+    lumiSectionRanges.rpcReady (Boolean) : Ranges.Rpc Ready
+    lumiSectionRanges.rangeNr (Integer) : Ranges.Range Nr
+    lumiSectionRanges.lhcFill (Long) : Ranges.Lhc Fill
+    lumiSectionRanges.hoReady (Boolean) : Ranges.Ho Ready
+    lumiSectionRanges.hfReady (Boolean) : Ranges.Hf Ready
+    lumiSectionRanges.hbhecReady (Boolean) : Ranges.Hbhec Ready
+    lumiSectionRanges.hbhebReady (Boolean) : Ranges.Hbheb Ready
+    lumiSectionRanges.hbheaReady (Boolean) : Ranges.Hbhea Ready
+    lumiSectionRanges.fpixReady (Boolean) : Ranges.Fpix Ready
+    lumiSectionRanges.espReady (Boolean) : Ranges.Esp Ready
+    lumiSectionRanges.esmReady (Boolean) : Ranges.Esm Ready
+    lumiSectionRanges.eepReady (Boolean) : Ranges.Eep Ready
+    lumiSectionRanges.eemReady (Boolean) : Ranges.Eem Ready
+    lumiSectionRanges.ebpReady (Boolean) : Ranges.Ebp Ready
+    lumiSectionRanges.ebmReady (Boolean) : Ranges.Ebm Ready
+    lumiSectionRanges.dtpReady (Boolean) : Ranges.Dtp Ready
+    lumiSectionRanges.dtmReady (Boolean) : Ranges.Dtm Ready
+    lumiSectionRanges.dt0Ready (Boolean) : Ranges.Dt0 Ready
+    lumiSectionRanges.cscpReady (Boolean) : Ranges.Cscp Ready
+    lumiSectionRanges.cscmReady (Boolean) : Ranges.Cscm Ready
+    lumiSectionRanges.cmsActive (Boolean) : Ranges.Cms Active
+    lumiSectionRanges.castorReady (Boolean) : Ranges.Castor Ready
+    lumiSectionRanges.bpixReady (Boolean) : Ranges.Bpix Ready
+    lumiSectionRanges.beam2Stable (Boolean) : Ranges.Beam2 Stable
+    lumiSectionRanges.beam2Safe (Boolean) : Ranges.Beam2 Safe
+    lumiSectionRanges.beam2Present (Boolean) : Ranges.Beam2 Present
+    lumiSectionRanges.beam2Moveable (Boolean) : Ranges.Beam2 Moveable
+    lumiSectionRanges.beam1Stable (Boolean) : Ranges.Beam1 Stable
+    lumiSectionRanges.beam1Safe (Boolean) : Ranges.Beam1 Safe
+    lumiSectionRanges.beam1Present (Boolean) : Ranges.Beam1 Present
+    lumiSectionRanges.beam1Moveable (Boolean) : Ranges.Beam1 Moveable
+    lumiPresent (Boolean) : LUMI in?
+    ltcPresent (Boolean) : LTC in?
+    lsRanges (Long) : LS ranges
+    lsCount (Long) : LS count
+    lsActiveCount (Long) : LS active
+    lhcFill (Long) : LHC fill
+    lhcEnergy (Integer) : LHC energy
+    l1Menu (String) : L1 Menu
+    key (String) : Key
+    initLumi (BigDecimal) : Init Lumi
+    hoReady (Boolean) : HO on?
+    hltkey (Integer) : Hltkey
+    hltVersion (String) : Hlt Version
+    hltKeyDescription (String) : Hlt Key Description
+    hfReady (Boolean) : HF on?
+    hcalPresent (Boolean) : HCAL in?
+    hbhecReady (Boolean) : HBHEc on?
+    hbhebReady (Boolean) : HBHEb on?
+    hbheaReady (Boolean) : HBHEa on?
+    gtKey (String) : Gt Key
+    fpixReady (Boolean) : FPix on?
+    events (Long) : Events
+    espReady (Boolean) : ES+ on?
+    esmReady (Boolean) : ES- on?
+    esPresent (Boolean) : ES in?
+    endLumi (BigDecimal) : End Lumi
+    efedPresent (Boolean) : EFED in?
+    eepReady (Boolean) : EE+ on?
+    eemReady (Boolean) : EE- on?
+    ecalPresent (Boolean) : ECAL in?
+    ebpReady (Boolean) : EB+ on?
+    ebmReady (Boolean) : EB- on?
+    duration (Long) : Duration
+    dtpReady (Boolean) : DT+ on?
+    dtmReady (Boolean) : DT- on?
+    dtPresent (Boolean) : DT in?
+    dt0Ready (Boolean) : DT0 on?
+    dqmPresent (Boolean) : DQM in?
+    datasets.workspaceName (WorkspaceName) : Datasets.Workspace Name
+    datasets.software (Component) : Datasets.Software
+    datasets.runStopReason (String) : Datasets.Run Stop Reason
+    datasets.runNumber (Long) : Datasets.Run Number
+    datasets.runModified (Date) : Datasets.Run Modified
+    datasets.runCreated (Date) : Datasets.Run Created
+    datasets.runClassName (String) : Datasets.Run Class Name
+    datasets.run (RunSummaryRowL1t) : Datasets.Run
+    datasets.rpcTech (Component) : Datasets.Rpc Tech
+    datasets.ranges (List) : Datasets.Ranges
+    datasets.online (Boolean) : Datasets.Online
+    datasets.muonRpc (Component) : Datasets.Muon Rpc
+    datasets.muonDt (Component) : Datasets.Muon Dt
+    datasets.muonCsc (Component) : Datasets.Muon Csc
+    datasets.lastShifter (String) : Datasets.Last Shifter
+    datasets.l1tmu (Component) : Datasets.L1tmu
+    datasets.l1tcalo (Component) : Datasets.L1tcalo
+    datasets.hfTech (Component) : Datasets.Hf Tech
+    datasets.hfRings (Component) : Datasets.Hf Rings
+    datasets.firstShifter (String) : Datasets.First Shifter
+    datasets.energySums (Component) : Datasets.Energy Sums
+    datasets.eGamma (Component) : Datasets.E Gamma
+    datasets.datasetState (DatasetState) : Datasets.Dataset State
+    datasets.datasetName (String) : Datasets.Dataset Name
+    datasets.datasetModified (Date) : Datasets.Dataset Modified
+    datasets.datasetCreated (Date) : Datasets.Dataset Created
+    datasets.datasetComment (String) : Datasets.Dataset Comment
+    datasets.bptxTech (Component) : Datasets.Bptx Tech
+    datasets.bcsTech (Component) : Datasets.Bcs Tech
+    datasetId (Long) : Dataset Id
+    datasetExists (Boolean) : Dataset Exists
+    daqPresent (Boolean) : DAQ in?
+    cscpReady (Boolean) : CSC+ on?
+    cscmReady (Boolean) : CSC- on?
+    cscPresent (Boolean) : CSC in?
+    castorReady (Boolean) : Castor on?
+    castorPresent (Boolean) : Castor in?
+    bpixReady (Boolean) : BPix on?
+    bookingTime (Date) : Booked
+    bfield (BigDecimal) : B-field
+    beam2Stable (Boolean) : B2 stable?
+    beam2Present (Boolean) : B2?
+    beam1Stable (Boolean) : B1 stable?
+    beam1Present (Boolean) : B1?
+
