@@ -7,11 +7,10 @@ if [ ! -d $webDirectory ]; then
   exit
 fi
 
-for file in DQM_V0001_R*__L1TMonitor__Calo__RCTOffline.root
+for file in outputs/*.root
 do
-  [[ $file == 'DQM_V0001_R*__L1TMonitor__Calo__RCTOffline.root' ]] && break
-  run=$(echo ${file}|sed -n 's:.*R0*\([0-9]*\)__.*:\1:p')
-  mv $file run${run}.root
+  [[ $file == 'outputs/*.root' ]] && break
+  run=$(echo ${file}|sed -n 's:outputs/run\(.*\).root:\1:p')
   mkdir run${run}
   root -b -q -l "newRct.C++(\"${run}\", \"L1TdeRCT\")"
   root -b -q -l "newRct.C++(\"${run}\", \"L1TdeRCT_FromRCT\")"

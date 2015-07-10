@@ -181,7 +181,7 @@ void init() {
   paletteSize = 100;
   nContours   = 100;
 
-  f = new TFile("run" + runNumber + ".root");
+  f = new TFile("outputs/run" + runNumber + ".root");
 
   c1 = new TCanvas;
 
@@ -320,7 +320,7 @@ void newRct(TString runString, TString runSummarySubfolder) {
 
   init();
 
-  f = new TFile("run" + runNumber + ".root");
+  f = new TFile("outputs/run" + runNumber + ".root");
 
   d = f->GetDirectory("DQMData/Run "+runNumber+"/L1TEMU/Run summary/"+runSummarySubfolder);
   if ( d == nullptr ) {
@@ -398,7 +398,7 @@ void newRct(TString runString, TString runSummarySubfolder) {
   // c1->SaveAs("./run" + runNumber + "/quietOccEmul_" + runSummarySubfolder + ".png");
 
   d = f->GetDirectory("DQMData/Run "+runNumber+"/L1TEMU/Run summary/"+runSummarySubfolder+"/BitData");
-  readQualityTests("run" + runNumber + ".root", "DQMData/Run "+runNumber+"/L1TEMU/Run summary/"+runSummarySubfolder+"/BitData");
+  readQualityTests("outputs/run" + runNumber + ".root", "DQMData/Run "+runNumber+"/L1TEMU/Run summary/"+runSummarySubfolder+"/BitData");
 
   TH2F* rctBitHfPlusTauEff2D     = (TH2F*)d->Get("rctBitHfPlusTauEff2D");
   TH2F* rctBitOverFlowEff2D      = (TH2F*)d->Get("rctBitOverFlowEff2D");
@@ -586,7 +586,7 @@ void newRct(TString runString, TString runSummarySubfolder) {
   ca2->SaveAs("./run" + runNumber + "/nonIsoOccEmul_" + runSummarySubfolder + ".png");
 
   d = f->GetDirectory("DQMData/Run "+runNumber+"/L1TEMU/Run summary/"+runSummarySubfolder+"/NisoEm");
-  readQualityTests("run" + runNumber + ".root", "DQMData/Run "+runNumber+"/L1TEMU/Run summary/"+runSummarySubfolder+"/NisoEm");
+  readQualityTests("outputs/run" + runNumber + ".root", "DQMData/Run "+runNumber+"/L1TEMU/Run summary/"+runSummarySubfolder+"/NisoEm");
 
   TH2F* rctNisoEmEff1    = (TH2F*)d->Get("rctNisoEmEff1");
   TH2F* rctNisoEmEff2    = (TH2F*)d->Get("rctNisoEmEff2");
@@ -688,7 +688,7 @@ void newRct(TString runString, TString runSummarySubfolder) {
   cb2->SaveAs("./run" + runNumber + "/isoOccEmul_" + runSummarySubfolder + ".png");
 
   d = f->GetDirectory("DQMData/Run "+runNumber+"/L1TEMU/Run summary/"+runSummarySubfolder+"/IsoEm");
-  readQualityTests("run" + runNumber + ".root", "DQMData/Run "+runNumber+"/L1TEMU/Run summary/"+runSummarySubfolder+"/IsoEm");
+  readQualityTests("outputs/run" + runNumber + ".root", "DQMData/Run "+runNumber+"/L1TEMU/Run summary/"+runSummarySubfolder+"/IsoEm");
 
   TH2F* rctIsoEmEff1    = (TH2F*)d->Get("rctIsoEmEff1");
   TH2F* rctIsoEmEff2    = (TH2F*)d->Get("rctIsoEmEff2");
@@ -789,7 +789,7 @@ void newRct(TString runString, TString runSummarySubfolder) {
   cc2->SaveAs("./run" + runNumber + "/regOccEmul_" + runSummarySubfolder + ".png");
 
   d = f->GetDirectory("DQMData/Run "+runNumber+"/L1TEMU/Run summary/"+runSummarySubfolder+"/RegionData");
-  readQualityTests("run" + runNumber + ".root", "DQMData/Run "+runNumber+"/L1TEMU/Run summary/"+runSummarySubfolder+"/RegionData");
+  readQualityTests("outputs/run" + runNumber + ".root", "DQMData/Run "+runNumber+"/L1TEMU/Run summary/"+runSummarySubfolder+"/RegionData");
 
   TH2F* rctRegEff2D     = (TH2F*)d->Get("rctRegEff2D");
   TH2F* rctRegSpEff2D   = (TH2F*)d->Get("rctRegSpEff2D");
