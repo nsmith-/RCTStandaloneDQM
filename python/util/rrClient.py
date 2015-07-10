@@ -19,7 +19,7 @@ def getRunsNewer(run, minLumis):
                             'triggers',
                             'runClassName',
                         ],
-                    query = "{number} > %d and {lsCount} > %d" % (run, minLumis),
+                    query = "{number} > %d and {lsCount} > %d and {triggers} > 0" % (run, minLumis),
                 )
             runs = {}
             for runDict in result :
