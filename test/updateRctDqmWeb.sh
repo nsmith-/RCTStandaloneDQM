@@ -120,7 +120,7 @@ do
     genRunIndex ${1}/${inputDir}
 
     echo Moving to ${2}
-    rm -rf ${2}/${inputDir}
+    # rm -rf ${2}/${inputDir}
     mv ${1}/${inputDir} ${2}
     fs setacl ${2}/${inputDir} webserver:afs read
 

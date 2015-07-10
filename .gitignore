@@ -1,3 +1,6 @@
 *.pyc
 *.root
 *_C.*
+*.log
+python/__init__.py
+*.pcm
