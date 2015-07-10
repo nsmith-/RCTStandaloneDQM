@@ -18,6 +18,7 @@ scram b -j 4
 ```
 
 [Link to Branch](https://github.com/nsmith-/cmssw/tree/RCTStandaloneDQMv3)
+
 How I got to that branch:
 
 _If rebase fails, try `git rebase --abort` and then try again_
@@ -45,9 +46,20 @@ All the rebasing was necessary because the unpacker was at 76X and the updated D
 Running Test Setup
 ------------------
 
-From `test`.  The errors about GCT unpacker are plentiful and to be ignored for now.
+From `test`.  The manual run entry will change _soon_!
 
-```bash
-. runme.sh
+Put some runs in `newRuns.txt` however you like. For example:
+```
+251250
+251251
+251252
 ```
 
+Then do (from an lxplus machine):
+```bash
+./batchSubmit.sh
+# watch bjobs till done
+bjobs
+./batchOutputToWeb.sh
+```
+You will need a web directory of some sort, change `batchOutputToWeb.sh` to have the web directory you want.
