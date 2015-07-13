@@ -62,6 +62,7 @@ def dasQuery(queryString, entryTitle) :
     if dasinfo['status'] != 'ok' :
         raise Exception('DAS query failed.\nQuery: %s\nDAS Status returned: %s' % (queryString, dasinfo['status']))
 
-    for entry in dasinfo['data'] :
-        if len(entry[entryTitle]) > 0 :
-            yield entry[entryTitle][0]
+    if len(dasinfo['data']) > 0 :
+        for entry in dasinfo['data'] :
+            if entryTitle in entry and len(entry[entryTitle]) > 0 :
+                yield entry[entryTitle][0]
