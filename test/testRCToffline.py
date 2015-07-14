@@ -4,8 +4,14 @@ from FWCore.ParameterSet.VarParsing import VarParsing
 
 options = VarParsing()
 options.register('runNumber', 0, VarParsing.multiplicity.singleton, VarParsing.varType.int, 'Run to analyze')
-options.register('dataStream', '/ExpressPhysics/Run2015A-Express-v1/FEVT', VarParsing.multiplicity.singleton, VarParsing.varType.string, 'Dataset to look for run in')
+options.register('lumis', '1-max', VarParsing.multiplicity.singleton, VarParsing.varType.string, 'Lumis')
+options.register('dataStream', '/ExpressPhysics/Run2015B-Express-v1/FEVT', VarParsing.multiplicity.singleton, VarParsing.varType.string, 'Dataset to look for run in')
 options.parseArguments()
+
+def formatLumis(lumistring, run) :
+    lumis = (lrange.split('-') for lrange in lumistring.split(','))
+    runlumis = (['%d:%s' % (run,lumi) for lumi in lrange] for lrange in lumis)
+    return ['-'.join(l) for l in runlumis]
 
 print 'Getting files for run %d...' % options.runNumber
 inputFiles = util.getFilesForRun(options.runNumber, options.dataStream)
@@ -46,11 +52,12 @@ process.qTester = cms.EDAnalyzer("QualityTester",
 process.p = cms.Path(process.l1RctHwDigis*process.rctdqm*process.l1tderctFromGCT*process.qTester*process.dqmSaver)
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(60000)
+    input = cms.untracked.int32(-1)
 )
 
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
         inputFiles
-    )
+    ),
+    lumisToProcess = cms.untracked.VLuminosityBlockRange(formatLumis(options.lumis, options.runNumber))
 )

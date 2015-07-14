@@ -63,3 +63,11 @@ bjobs
 ./batchOutputToWeb.sh
 ```
 You will need a web directory of some sort, change `batchOutputToWeb.sh` to have the web directory you want.
+
+Running a single job
+--------------------
+You can skip batchSubmit and go straight to cmsRun, and optionally specify a list of lumis, e.g.
+```bash
+cmsRun testRCToffline.py runNumber=251718 lumis=170-190
+# There is also dataStream=... option, defaults to /ExpressPhysics/Run2015B-Express-v1/FEVT
+```
