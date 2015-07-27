@@ -10,42 +10,26 @@ from Configuration.StandardSequences.RawToDigi_Data_cff import *
 from L1Trigger.HardwareValidation.L1HardwareValidation_cff import *
 from L1Trigger.Configuration.L1Config_cff import *
 
-#dqm
-rctEmulDigis = cms.EDProducer("L1RCTProducer",
-    useEcal = cms.bool(True),
-    useHcal = cms.bool(True),
-    ecalDigis = cms.VInputTag(cms.InputTag("ecalDigis:EcalTriggerPrimitives")),
-    hcalDigis = cms.VInputTag(cms.InputTag("hcalDigis")),
-    queryDelayInLS = cms.uint32(10),
-    queryIntervalInLS = cms.uint32(100),
-    getFedsFromOmds = cms.bool(False),
-    BunchCrossings = cms.vint32(0),
-    conditionsLabel = cms.string("")
-)
+from DQM.L1TMonitor.L1TRCT_cfi import *
+l1tRct.rctSource = 'l1RctHwDigis'
+l1tRct.gctSource = 'gctDigis'
 
-l1tderct = cms.EDAnalyzer("L1TdeRCT",
-    rctSourceData = cms.InputTag("l1RctHwDigis"),
-    rctSourceEmul = cms.InputTag("rctEmulDigis"),
-    gctSourceData = cms.InputTag("gctDigis"),
-    ecalTPGData = cms.InputTag("ecalDigis:EcalTriggerPrimitives"),
-    hcalTPGData = cms.InputTag("hcalDigis"),
-    gtDigisLabel = cms.InputTag("gtDigis"),
-    gtEGAlgoName = cms.string("L1_SingleEG1"),
-    doubleThreshold = cms.int32(3),
-    filterTriggerType = cms.int32(1),
-    selectBX = cms.untracked.int32(0),
-)
+l1tRctfromGCT = l1tRct.clone()
+l1tRctfromGCT.rctSource = 'gctDigis'
+l1tRctfromGCT.HistFolder = cms.untracked.string('L1T/L1TRCT_FromGCT')
 
-l1trct = cms.EDAnalyzer("L1TRCT",
-    rctSource = cms.InputTag("l1RctHwDigis"),
-    gctSource = cms.InputTag("gctDigis"),
-    filterTriggerType = cms.int32(1),
-    selectBX = cms.untracked.int32(0),
-)
+from DQM.L1TMonitor.L1TdeRCT_cfi import *
+l1TdeRCT.rctSourceData = 'l1RctHwDigis'
+l1TdeRCT.gctSourceData = 'gctDigis'
+l1TdeRCT.rctSourceEmul = 'valRctDigis'
+
+l1TdeRCTfromGCT = l1TdeRCT.clone()
+l1TdeRCTfromGCT.rctSourceData = 'gctDigis'
+l1TdeRCTfromGCT.HistFolder = cms.untracked.string('L1TEMU/L1TdeRCT_FromGCT')
 
 rctdqm = cms.Sequence(
     RawToDigi
-    *rctEmulDigis
-    *l1trct
-    *l1tderct
+    *L1HardwareValidation
+    *(l1tRct + l1tRctfromGCT)
+    *(l1TdeRCT + l1TdeRCTfromGCT)
 )
