@@ -27,9 +27,12 @@ l1TdeRCTfromGCT = l1TdeRCT.clone()
 l1TdeRCTfromGCT.rctSourceData = 'gctDigis'
 l1TdeRCTfromGCT.HistFolder = cms.untracked.string('L1TEMU/L1TdeRCT_FromGCT')
 
+# TODO: if we move to online DQM, switch to L1TMonitor
+from DQM.RCTStandaloneDQM.L1TPUM_cfi import *
+
 rctdqm = cms.Sequence(
     RawToDigi
     *L1HardwareValidation
-    *(l1tRct + l1tRctfromGCT)
+    *(l1tRct + l1tRctfromGCT + l1tPUM)
     *(l1TdeRCT + l1TdeRCTfromGCT)
 )
