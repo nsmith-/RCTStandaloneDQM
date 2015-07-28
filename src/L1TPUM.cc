@@ -22,6 +22,7 @@ namespace {
   const float R10MAX = 1023.5;
 
   const unsigned int PUMETABINS = 22;
+  const unsigned int PUMNORMALIZE = 22;
 
   const unsigned int PUMBINS = 18;
   const float PUMMIN = -0.5;
@@ -42,17 +43,54 @@ void L1TPUM::dqmBeginRun(const edm::Run&, const edm::EventSetup&)
 {
 }
 
-void L1TPUM::analyze(const edm::Event & e, const edm::EventSetup & c)
+void L1TPUM::analyze(const edm::Event & event, const edm::EventSetup & es)
 {
+  edm::Handle<L1CaloRegionCollection> regionCollection;
+  event.getByToken(regionSource_, regionCollection);
+
+  int nonzeroRegionsBx0{0};
+  int nonzeroRegionsBxP2{0};
+  int nonzeroRegionsBxM2{0};
+  for (const auto& region : *regionCollection) {
+    if ( region.et() > 0 ) {
+      if ( region.bx() == 0 )
+        nonzeroRegionsBx0++;
+      else if ( region.bx() == 2 )
+        nonzeroRegionsBxP2++;
+      else if ( region.bx() == -2 )
+        nonzeroRegionsBxM2++;
+    }
+  }
+
+  for (const auto& region : *regionCollection) {
+    size_t etaBin = region.gctEta();
+    if ( region.bx() == 0 )
+      regionsPUMEtaBx0_[etaBin]->Fill(nonzeroRegionsBx0/PUMNORMALIZE, region.et());
+    else if ( region.bx() == 2 )
+      regionsPUMEtaBxP2_[etaBin]->Fill(nonzeroRegionsBxP2/PUMNORMALIZE, region.et());
+    else if ( region.bx() == -2 )
+      regionsPUMEtaBxM2_[etaBin]->Fill(nonzeroRegionsBxM2/PUMNORMALIZE, region.et());
+  }
 }
 
 void L1TPUM::bookHistograms(DQMStore::IBooker &ibooker, const edm::Run& run , const edm::EventSetup& es) 
 {
-  ibooker.setCurrentFolder(histFolder_);
-
-  regionsPUMEta_.resize(PUMETABINS);
+  ibooker.setCurrentFolder(histFolder_+"/BX0");
+  regionsPUMEtaBx0_.resize(PUMETABINS);
   for (size_t ieta=0; ieta<PUMETABINS; ++ieta) {
-    regionsPUMEta_[ieta] = ibooker.book2D("regionsPUMEta"+std::to_string(ieta), "PUM Bin rank distribution", PUMBINS, PUMMIN, PUMMAX, R10BINS, R10MIN, R10MAX);
+    regionsPUMEtaBx0_[ieta] = ibooker.book2D("regionsPUMEta"+std::to_string(ieta), "PUM Bin rank distribution", PUMBINS, PUMMIN, PUMMAX, R10BINS, R10MIN, R10MAX);
+  }
+
+  ibooker.setCurrentFolder(histFolder_+"/BXP2");
+  regionsPUMEtaBxP2_.resize(PUMETABINS);
+  for (size_t ieta=0; ieta<PUMETABINS; ++ieta) {
+    regionsPUMEtaBxP2_[ieta] = ibooker.book2D("regionsPUMEta"+std::to_string(ieta), "PUM Bin rank distribution", PUMBINS, PUMMIN, PUMMAX, R10BINS, R10MIN, R10MAX);
+  }
+
+  ibooker.setCurrentFolder(histFolder_+"/BXM2");
+  regionsPUMEtaBxM2_.resize(PUMETABINS);
+  for (size_t ieta=0; ieta<PUMETABINS; ++ieta) {
+    regionsPUMEtaBxM2_[ieta] = ibooker.book2D("regionsPUMEta"+std::to_string(ieta), "PUM Bin rank distribution", PUMBINS, PUMMIN, PUMMAX, R10BINS, R10MIN, R10MAX);
   }
 }
 
