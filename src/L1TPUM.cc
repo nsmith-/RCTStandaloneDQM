@@ -48,19 +48,46 @@ void L1TPUM::analyze(const edm::Event & event, const edm::EventSetup & es)
   edm::Handle<L1CaloRegionCollection> regionCollection;
   event.getByToken(regionSource_, regionCollection);
 
-  int nonzeroRegionsBx0{0};
   int nonzeroRegionsBxP2{0};
+  int nonzeroRegionsBx0{0};
   int nonzeroRegionsBxM2{0};
+
+  float regionsTotalEtBxP2{0.};
+  float regionsTotalEtBx0{0.};
+  float regionsTotalEtBxM2{0.};
+
   for (const auto& region : *regionCollection) {
     if ( region.et() > 0 ) {
-      if ( region.bx() == 0 )
+      if ( region.bx() == 0 ) {
         nonzeroRegionsBx0++;
-      else if ( region.bx() == 2 )
+        regionsTotalEtBx0 += region.et();
+      }
+      else if ( region.bx() == 2 ) {
         nonzeroRegionsBxP2++;
-      else if ( region.bx() == -2 )
+        regionsTotalEtBxP2 += region.et();
+      }
+      else if ( region.bx() == -2 ) {
         nonzeroRegionsBxM2++;
+        regionsTotalEtBxM2 += region.et();
+      }
     }
   }
+
+  regionsTotalEtBxP2_->Fill(regionsTotalEtBxP2);
+  regionsTotalEtBx0_->Fill(regionsTotalEtBx0);
+  regionsTotalEtBxM2_->Fill(regionsTotalEtBxM2);
+
+  regionsAvgEtBxP2_->Fill(regionsTotalEtBxP2/396.);
+  regionsAvgEtBx0_->Fill(regionsTotalEtBx0/396.);
+  regionsAvgEtBxM2_->Fill(regionsTotalEtBxM2/396.);
+
+  regionsAvgNonZeroEtBxP2_->Fill(regionsTotalEtBxP2/nonzeroRegionsBxP2);
+  regionsAvgNonZeroEtBx0_->Fill(regionsTotalEtBx0/nonzeroRegionsBx0);
+  regionsAvgNonZeroEtBxM2_->Fill(regionsTotalEtBxM2/nonzeroRegionsBxM2);
+
+  nonZeroRegionsBxP2_->Fill(nonzeroRegionsBxP2);
+  nonZeroRegionsBx0_->Fill(nonzeroRegionsBx0);
+  nonZeroRegionsBxM2_->Fill(nonzeroRegionsBxM2);
 
   for (const auto& region : *regionCollection) {
     size_t etaBin = region.gctEta();
@@ -78,19 +105,31 @@ void L1TPUM::bookHistograms(DQMStore::IBooker &ibooker, const edm::Run& run , co
   ibooker.setCurrentFolder(histFolder_+"/BX0");
   regionsPUMEtaBx0_.resize(PUMETABINS);
   for (size_t ieta=0; ieta<PUMETABINS; ++ieta) {
-    regionsPUMEtaBx0_[ieta] = ibooker.book2D("regionsPUMEta"+std::to_string(ieta), "PUM Bin rank distribution", PUMBINS, PUMMIN, PUMMAX, R10BINS, R10MIN, R10MAX);
+    regionsTotalEtBx0_ = ibooker.book1D("regionsTotalEt", "Total ET distribution;Sum Rank;Counts", 200, 0, 2000);
+    regionsAvgEtBx0_ = ibooker.book1D("regionsAvgEt", "Average Rank;Average Rank;Counts", R10BINS, R10MIN, R10MAX);
+    regionsAvgNonZeroEtBx0_ = ibooker.book1D("regionsAvgNonZeroEt", "Average Rank >0;Average Rank Regions>0;Counts", R10BINS, R10MIN, R10MAX);
+    nonZeroRegionsBx0_ = ibooker.book1D("nonZeroRegions", "Nonzero regions;Number Regions >0;Counts", 397, -0.5, 396.5);
+    regionsPUMEtaBx0_[ieta] = ibooker.book2D("regionsPUMEta"+std::to_string(ieta), "PUM Bin rank distribution;PU bin;Rank", PUMBINS, PUMMIN, PUMMAX, R10BINS, R10MIN, R10MAX);
   }
 
   ibooker.setCurrentFolder(histFolder_+"/BXP2");
   regionsPUMEtaBxP2_.resize(PUMETABINS);
   for (size_t ieta=0; ieta<PUMETABINS; ++ieta) {
-    regionsPUMEtaBxP2_[ieta] = ibooker.book2D("regionsPUMEta"+std::to_string(ieta), "PUM Bin rank distribution", PUMBINS, PUMMIN, PUMMAX, R10BINS, R10MIN, R10MAX);
+    regionsTotalEtBxP2_ = ibooker.book1D("regionsTotalEt", "Total ET distribution;Sum Rank;Counts", 200, 0, 2000);
+    regionsAvgEtBxP2_ = ibooker.book1D("regionsAvgEt", "Average Rank;Average Rank;Counts", R10BINS, R10MIN, R10MAX);
+    regionsAvgNonZeroEtBxP2_ = ibooker.book1D("regionsAvgNonZeroEt", "Average Rank >0;Average Rank Regions>0;Counts", R10BINS, R10MIN, R10MAX);
+    nonZeroRegionsBxP2_ = ibooker.book1D("nonZeroRegions", "Nonzero regions;Number Regions >0;Counts", 397, -0.5, 396.5);
+    regionsPUMEtaBxP2_[ieta] = ibooker.book2D("regionsPUMEta"+std::to_string(ieta), "PUM Bin rank distribution;PU bin;Rank", PUMBINS, PUMMIN, PUMMAX, R10BINS, R10MIN, R10MAX);
   }
 
   ibooker.setCurrentFolder(histFolder_+"/BXM2");
   regionsPUMEtaBxM2_.resize(PUMETABINS);
   for (size_t ieta=0; ieta<PUMETABINS; ++ieta) {
-    regionsPUMEtaBxM2_[ieta] = ibooker.book2D("regionsPUMEta"+std::to_string(ieta), "PUM Bin rank distribution", PUMBINS, PUMMIN, PUMMAX, R10BINS, R10MIN, R10MAX);
+    regionsTotalEtBxM2_ = ibooker.book1D("regionsTotalEt", "Total ET distribution;Sum Rank;Counts", 200, 0, 2000);
+    regionsAvgEtBxM2_ = ibooker.book1D("regionsAvgEt", "Average Rank;Average Rank;Counts", R10BINS, R10MIN, R10MAX);
+    regionsAvgNonZeroEtBxM2_ = ibooker.book1D("regionsAvgNonZeroEt", "Average Rank >0;Average Rank Regions>0;Counts", R10BINS, R10MIN, R10MAX);
+    nonZeroRegionsBxM2_ = ibooker.book1D("nonZeroRegions", "Nonzero regions;Number Regions >0;Counts", 397, -0.5, 396.5);
+    regionsPUMEtaBxM2_[ieta] = ibooker.book2D("regionsPUMEta"+std::to_string(ieta), "PUM Bin rank distribution;PU bin;Rank", PUMBINS, PUMMIN, PUMMAX, R10BINS, R10MIN, R10MAX);
   }
 }
 

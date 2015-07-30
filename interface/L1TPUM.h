@@ -37,6 +37,22 @@ class L1TPUM : public DQMEDAnalyzer {
     edm::EDGetTokenT<L1CaloRegionCollection> regionSource_;
     std::string histFolder_;
 
+    MonitorElement* regionsTotalEtBxP2_;
+    MonitorElement* regionsTotalEtBx0_;
+    MonitorElement* regionsTotalEtBxM2_;
+
+    MonitorElement* regionsAvgEtBxP2_;
+    MonitorElement* regionsAvgEtBx0_;
+    MonitorElement* regionsAvgEtBxM2_;
+
+    MonitorElement* regionsAvgNonZeroEtBxP2_;
+    MonitorElement* regionsAvgNonZeroEtBx0_;
+    MonitorElement* regionsAvgNonZeroEtBxM2_;
+
+    MonitorElement* nonZeroRegionsBxP2_;
+    MonitorElement* nonZeroRegionsBx0_;
+    MonitorElement* nonZeroRegionsBxM2_;
+
     std::vector<MonitorElement*> regionsPUMEtaBxP2_;
     std::vector<MonitorElement*> regionsPUMEtaBx0_;
     std::vector<MonitorElement*> regionsPUMEtaBxM2_;

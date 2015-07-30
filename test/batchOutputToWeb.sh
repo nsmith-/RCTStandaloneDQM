@@ -15,6 +15,7 @@ do
   mkdir run${run}
   root -b -q -l "newRct.C++(\"${run}\", \"L1TdeRCT\")"
   root -b -q -l "newRct.C++(\"${run}\", \"L1TdeRCT_FromGCT\")"
+  ./dumpPUMplots.py ${run}
   mkdir -p dqmAnalysis
   mv run${run} dqmAnalysis
   ./updateRctDqmWeb.sh dqmAnalysis ${webDirectory}

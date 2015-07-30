@@ -76,6 +76,16 @@ EOF
   
   echo '<h2 id="label2">RCT Digis from CTP7</h2>' >> index.html
   echo '<input type="button" onclick="togglePlots()" value="Toggle!" /><br />' >> index.html
+
+  echo '<h2 id="pum">Pileup Monitoring Plots</h2>' >> index.html
+  echo '<div id="pum">' >> index.html
+  for img in *_PUM.png ; do
+    echo Generating thumbnail for $img...
+    convert -scale 240 $img thumb-$img
+    echo "<a href=\"$img\"><img src=\"thumb-$img\"></a> " >> index.html
+  done
+  echo '</div>' >> index.html
+
   echo "<br />Webpage generated on: " `date ` >> index.html
 
   echo "</body></html>" >> index.html

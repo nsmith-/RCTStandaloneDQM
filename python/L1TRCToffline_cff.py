@@ -30,6 +30,10 @@ l1TdeRCTfromGCT.HistFolder = cms.untracked.string('L1TEMU/L1TdeRCT_FromGCT')
 # TODO: if we move to online DQM, switch to L1TMonitor
 from DQM.RCTStandaloneDQM.L1TPUM_cfi import *
 
+# Trim some unnecessary steps
+RawToDigi = cms.Sequence(rctHwDigis+gctDigis+gtDigis+ecalDigis+hcalDigis)
+L1HardwareValidation = cms.Sequence(deEcal+deHcal+deRct+deGct)
+
 rctdqm = cms.Sequence(
     RawToDigi
     *L1HardwareValidation
