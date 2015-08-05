@@ -53,6 +53,9 @@ class L1TPUM : public DQMEDAnalyzer {
     MonitorElement* nonZeroRegionsBx0_;
     MonitorElement* nonZeroRegionsBxM2_;
 
+    MonitorElement* regionBxPopulation_;
+    MonitorElement* regionBxEtSum_;
+
     std::vector<MonitorElement*> regionsPUMEtaBxP2_;
     std::vector<MonitorElement*> regionsPUMEtaBx0_;
     std::vector<MonitorElement*> regionsPUMEtaBxM2_;

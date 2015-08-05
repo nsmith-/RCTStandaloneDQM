@@ -91,6 +91,8 @@ void L1TPUM::analyze(const edm::Event & event, const edm::EventSetup & es)
 
   for (const auto& region : *regionCollection) {
     size_t etaBin = region.gctEta();
+    regionBxPopulation_->Fill(etaBin*18+region.gctPhi(), region.bx());
+    regionBxEtSum_->Fill(etaBin*18+region.gctPhi(), region.bx(), region.et());
     if ( region.bx() == 0 )
       regionsPUMEtaBx0_[etaBin]->Fill(nonzeroRegionsBx0/PUMNORMALIZE, region.et());
     else if ( region.bx() == 2 )
@@ -131,6 +133,10 @@ void L1TPUM::bookHistograms(DQMStore::IBooker &ibooker, const edm::Run& run , co
     nonZeroRegionsBxM2_ = ibooker.book1D("nonZeroRegions", "Nonzero regions;Number Regions >0;Counts", 397, -0.5, 396.5);
     regionsPUMEtaBxM2_[ieta] = ibooker.book2D("regionsPUMEta"+std::to_string(ieta), "PUM Bin rank distribution;PU bin;Rank", PUMBINS, PUMMIN, PUMMAX, R10BINS, R10MIN, R10MAX);
   }
+
+  ibooker.setCurrentFolder(histFolder_+"/RegionBxInfo");
+  regionBxPopulation_ = ibooker.book2D("regionBxPopulation", "Event counts per region per bunch crossing;Region index (18*eta+phi);BX index;Counts", 396, -0.5, 395.5, 5, -2.5, 2.5);
+  regionBxEtSum_ = ibooker.book2D("regionBxEtSum", "Et per region per bunch crossing;Region index (18*eta+phi);BX index;Counts*et", 396, -0.5, 395.5, 5, -2.5, 2.5);
 }
 
 void L1TPUM::beginLuminosityBlock(const edm::LuminosityBlock& ls,const edm::EventSetup& es)

@@ -42,14 +42,17 @@ genRunIndex ()
 function togglePlots() {
   ctp7 = document.getElementById('fromCTP7');
   gct  = document.getElementById('fromGCT');
+  pum  = document.getElementById('pum');
   label  = document.getElementById('label');
   if ( ctp7.style.display == 'block' ) {
     ctp7.style.display = 'none';
+    pum.style.display = 'none';
     gct.style.display = 'block';
     label.innerHTML = 'RCT Digis from GCT';
     label2.innerHTML = 'RCT Digis from GCT';
   } else {
     ctp7.style.display = 'block';
+    pum.style.display = 'block';
     gct.style.display = 'none';
     label.innerHTML = 'RCT Digis from CTP7';
     label2.innerHTML = 'RCT Digis from CTP7';
@@ -77,8 +80,8 @@ EOF
   echo '<h2 id="label2">RCT Digis from CTP7</h2>' >> index.html
   echo '<input type="button" onclick="togglePlots()" value="Toggle!" /><br />' >> index.html
 
-  echo '<h2 id="pum">Pileup Monitoring Plots</h2>' >> index.html
   echo '<div id="pum">' >> index.html
+  echo '<h2>Pileup Monitoring Plots</h2>' >> index.html
   for img in *_PUM.png ; do
     echo Generating thumbnail for $img...
     convert -scale 240 $img thumb-$img
