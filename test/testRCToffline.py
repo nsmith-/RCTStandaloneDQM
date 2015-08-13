@@ -5,7 +5,7 @@ from FWCore.ParameterSet.VarParsing import VarParsing
 options = VarParsing()
 options.register('runNumber', 0, VarParsing.multiplicity.singleton, VarParsing.varType.int, 'Run to analyze')
 options.register('lumis', '1-max', VarParsing.multiplicity.singleton, VarParsing.varType.string, 'Lumis')
-options.register('dataStream', '/ExpressPhysics/Run2015B-Express-v1/FEVT', VarParsing.multiplicity.singleton, VarParsing.varType.string, 'Dataset to look for run in')
+options.register('dataStream', '/ExpressPhysics/Run2015C-Express-v1/FEVT', VarParsing.multiplicity.singleton, VarParsing.varType.string, 'Dataset to look for run in')
 options.register('inputFiles', [], VarParsing.multiplicity.list, VarParsing.varType.string, 'Manual file list input, will query DAS if empty')
 options.parseArguments()
 
@@ -26,6 +26,7 @@ process = cms.Process("RCTofflineTEST")
 
 process.load("FWCore.MessageService.MessageLogger_cfi")
 process.MessageLogger.cerr.FwkReport = cms.untracked.PSet( reportEvery = cms.untracked.int32(1000) )
+process.options = cms.untracked.PSet( wantSummary = cms.untracked.bool(True) )
 
 process.load('Configuration/StandardSequences/FrontierConditions_GlobalTag_condDBv2_cff')
 process.GlobalTag.globaltag = 'GR_H_V58C'
