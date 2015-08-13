@@ -14,7 +14,7 @@ do
   mv $file run${run}.root
   mkdir run${run}
   root -b -q -l "newRct.C++(\"${run}\", \"L1TdeRCT\")"
-  root -b -q -l "newRct.C++(\"${run}\", \"L1TdeRCT_FromGCT\")"
+  root -b -q -l "newRct.C++(\"${run}\", \"L1TdeRCT_FromRCT\")"
   ./dumpPUMplots.py ${run}
   mkdir -p dqmAnalysis
   mv run${run} dqmAnalysis

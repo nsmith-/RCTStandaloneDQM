@@ -41,15 +41,15 @@ genRunIndex ()
 <script type="text/javascript">
 function togglePlots() {
   ctp7 = document.getElementById('fromCTP7');
-  gct  = document.getElementById('fromGCT');
+  gct  = document.getElementById('fromMP7');
   pum  = document.getElementById('pum');
   label  = document.getElementById('label');
   if ( ctp7.style.display == 'block' ) {
     ctp7.style.display = 'none';
     pum.style.display = 'none';
     gct.style.display = 'block';
-    label.innerHTML = 'RCT Digis from GCT';
-    label2.innerHTML = 'RCT Digis from GCT';
+    label.innerHTML = 'RCT Digis from MP7';
+    label2.innerHTML = 'RCT Digis from MP7';
   } else {
     ctp7.style.display = 'block';
     pum.style.display = 'block';
@@ -62,15 +62,15 @@ function togglePlots() {
 EOF
 
   echo '<div id="fromCTP7" style="display: block;">' >> index.html
-  for img in *_L1TdeRCT.png ; do
+  for img in *_L1TdeRCT_FromRCT.png ; do
     echo Generating thumbnail for $img...
     convert -scale 240 $img thumb-$img
     echo "<a href=\"$img\"><img src=\"thumb-$img\"></a> " >> index.html
   done
   echo '</div>' >> index.html
 
-  echo '<div id="fromGCT" style="display: none;">' >> index.html
-  for img in *_L1TdeRCT_FromGCT.png ; do
+  echo '<div id="fromMP7" style="display: none;">' >> index.html
+  for img in *_L1TdeRCT.png ; do
     echo Generating thumbnail for $img...
     convert -scale 240 $img thumb-$img
     echo "<a href=\"$img\"><img src=\"thumb-$img\"></a> " >> index.html

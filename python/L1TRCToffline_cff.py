@@ -1,42 +1,24 @@
 import FWCore.ParameterSet.Config as cms
 
-#add'n
+#required for ecal/hcal digis
 from  Configuration.Geometry.GeometryIdeal_cff import *
 
 #unpacking
 from Configuration.StandardSequences.RawToDigi_Data_cff import *
 
 #emulator/comparator
-from L1Trigger.HardwareValidation.L1HardwareValidation_cff import *
 from L1Trigger.Configuration.L1Config_cff import *
 
-from DQM.L1TMonitor.L1TRCT_cfi import *
-l1tRct.rctSource = 'rctDigis'
-l1tRct.gctSource = 'gctDigis'
-
-l1tRctfromGCT = l1tRct.clone()
-l1tRctfromGCT.rctSource = 'gctDigis'
-l1tRctfromGCT.HistFolder = cms.untracked.string('L1T/L1TRCT_FromGCT')
-
-from DQM.L1TMonitor.L1TdeRCT_cfi import *
-l1TdeRCT.rctSourceData = 'rctDigis'
-l1TdeRCT.gctSourceData = 'gctDigis'
-l1TdeRCT.rctSourceEmul = 'valRctDigis'
-
-l1TdeRCTfromGCT = l1TdeRCT.clone()
-l1TdeRCTfromGCT.rctSourceData = 'gctDigis'
-l1TdeRCTfromGCT.HistFolder = cms.untracked.string('L1TEMU/L1TdeRCT_FromGCT')
-
-# TODO: if we move to online DQM, switch to L1TMonitor
-from DQM.RCTStandaloneDQM.L1TPUM_cfi import *
+from DQM.L1TMonitor.L1TEmulatorMonitor_cff import *
+from DQM.L1TMonitor.L1TMonitor_cff import *
 
 # Trim some unnecessary steps
-RawToDigi = cms.Sequence(rctDigis+gctDigis+gtDigis+ecalDigis+hcalDigis+scalersRawToDigi)
-L1HardwareValidation = cms.Sequence(deEcal+deHcal+deRct+deGct)
+RawToDigi = cms.Sequence(rctDigis+(caloStage1Digis*caloStage1LegacyFormatDigis)+gtDigis+ecalDigis+hcalDigis+scalersRawToDigi)
+L1HardwareValidation = cms.Sequence(deEcal+deHcal+deRct+deStage1Layer2)
 
 rctdqm = cms.Sequence(
     RawToDigi
     *L1HardwareValidation
-    *(l1tRct + l1tRctfromGCT + l1tPUM)
-    *(l1TdeRCT + l1TdeRCTfromGCT)
+    *(l1tRct + l1tRctfromRCT + l1tPUM)
+    *(l1TdeRCT + l1TdeRCTfromRCT)
 )
