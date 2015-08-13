@@ -19,6 +19,8 @@ if len(options.inputFiles) is 0 :
     inputFiles = util.getFilesForRun(options.runNumber, options.dataStream)
 else :
     inputFiles = cms.untracked.vstring(options.inputFiles)
+if len(inputFiles) is 0 :
+    raise Exception('No files found for dataset %s run %d' % (options.dataStream, options.runNumber))
 print 'Ok, time to analyze'
 process = cms.Process("RCTofflineTEST")
 
