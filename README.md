@@ -18,6 +18,10 @@ git clone https://github.com/nsmith-/RCTStandaloneDQM.git
 cd ..
 scram b -j 4
 ```
+If you plan to analyze very recent runs, the conditions might not propogate to Frontier.
+In that case, you must install the credentials to access ORCON.  This should only be used
+for *critical* monitoring, more info at:
+https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideORACLEProductionAndDevelopmentDatabaseSetup
 
 Automated Setup
 ---------------

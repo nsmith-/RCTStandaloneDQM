@@ -7,6 +7,7 @@ options.register('runNumber', 0, VarParsing.multiplicity.singleton, VarParsing.v
 options.register('lumis', '1-max', VarParsing.multiplicity.singleton, VarParsing.varType.string, 'Lumis')
 options.register('dataStream', '/ExpressPhysics/Run2015C-Express-v1/FEVT', VarParsing.multiplicity.singleton, VarParsing.varType.string, 'Dataset to look for run in')
 options.register('inputFiles', [], VarParsing.multiplicity.list, VarParsing.varType.string, 'Manual file list input, will query DAS if empty')
+options.register('useORCON', False, VarParsing.multiplicity.singleton, VarParsing.varType.bool, 'Use ORCON for conditions.  This is necessary for very recent runs where conditions have not propogated to Frontier')
 options.parseArguments()
 
 def formatLumis(lumistring, run) :
@@ -30,9 +31,10 @@ process.options = cms.untracked.PSet( wantSummary = cms.untracked.bool(True) )
 
 process.load('Configuration/StandardSequences/FrontierConditions_GlobalTag_condDBv2_cff')
 process.GlobalTag.globaltag = '74X_dataRun2_Express_v1'
-# Channel mask record does not propogate to FrontierProd as fast as we'd like
-# Hopefully this doesn't qualify as abuse
-process.GlobalTag.connect = 'oracle://cms_orcon_adg/CMS_CONDITIONS'
+if options.useORCON :
+    # Channel mask record does not propogate to FrontierProd as fast as we'd like
+    # Hopefully this doesn't qualify as abuse
+    process.GlobalTag.connect = 'oracle://cms_orcon_adg/CMS_CONDITIONS'
 process.es_prefer_GlobalTag = cms.ESPrefer('PoolDBESSource', 'GlobalTag')
 
 # Due to Stage 1 layer 2 not having O2O yet
