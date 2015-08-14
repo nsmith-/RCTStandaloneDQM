@@ -20,5 +20,5 @@ do
   mv $file processed/
   mkdir -p dqmAnalysis
   mv run${run} dqmAnalysis
-  ./updateRctDqmWeb.sh dqmAnalysis ${webDirectory}
 done
+./updateRctDqmWeb.sh dqmAnalysis ${webDirectory}

@@ -1,17 +1,10 @@
 #!/usr/bin/env python
 import DQM.RCTStandaloneDQM.util as util
-import json, datetime, os
-
-# Datasets for run types
-datasets = {
-    'Cosmics' : '/ExpressCosmics/Run2015B-Express-v1/FEVT',
-    'Collisions' : '/ExpressPhysics/Run2015B-Express-v1/FEVT',
-    'Commissioning' : '/ExpressPhysics/Run2015B-Express-v1/FEVT',
-}
+import json, datetime, os, re
 
 # Default start run if no runCache present
-# One less than first run of /ExpressPhysics/Run2015B-Express-v1/FEVT
-startRun = 250984
+# One less than first run of /ExpressPhysics/Run2015C-Express-v1/FEVT
+startRun = 253628-1
 
 runCache = {}
 if os.path.exists('runCache.json') :
@@ -21,11 +14,19 @@ if os.path.exists('runCache.json') :
     startRun = int(max(runCache.keys()))
 
 newRuns = util.getRunsNewer(startRun)
-for runDict in newRuns.values() :
+
+runsNoDataset = []
+for runNo, runDict in newRuns.iteritems() :
     runDict['batchSubmitted'] = True
-    for name, dataset in datasets.iteritems() :
-        if name in runDict['runClassName'] :
-            runDict['datasetUsed'] = dataset
+    availableDatasets = util.runGetDatasetsAvailable(runNo)
+    useableDatasets = filter(lambda d : re.match('/Express.*/FEVT', d), availableDatasets)
+    if len(useableDatasets) > 0 :
+        runDict['datasetUsed'] = useableDatasets[0]
+    else :
+        print 'Removing run %d due to no Express FEVT datasets available' % runNo
+        runsNoDataset.append(runNo)
+
+map(newRuns.pop, runsNoDataset)
 
 print 'Found %d new runs!' % len(newRuns)
 

@@ -30,6 +30,20 @@ def getRunsNewer(run, minlumis=10, source='RunRegistry') :
         querystring = "run | grep run.nlumis>{minlumis}, run.runnumber>{run}".format(run=run, minlumis=minlumis)
         return dasRunQueryToDict(querystring)
 
+def runGetDatasetsAvailable(run) :
+    '''
+        run : int
+        Will return a list of datasets in DAS that have the run in them
+    '''
+    querystring = "dataset run={run}".format(run=run)
+
+    datasets = []
+    for datasetDict in dasQuery(querystring, 'dataset') :
+        # cmsRun will not like unicode
+        datasets.append(datasetDict['name'].encode('ascii','replace'))
+
+    return datasets
+
 def getFilesForRun(run, dataset) :
     '''
         run : int
