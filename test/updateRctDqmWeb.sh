@@ -90,6 +90,8 @@ EOF
   echo '</div>' >> index.html
 
   echo "<br />Webpage generated on: " `date ` >> index.html
+  githash=$(git rev-parse HEAD)
+  echo "<br />RCTStandaloneDQM version: <a href=\"https://github.com/nsmith-/RCTStandaloneDQM/tree/${githash}\">${githash}</a>" $(git diff-index --quiet HEAD || echo ' <b>DIRTY!</b>') >> index.html
 
   echo "</body></html>" >> index.html
 

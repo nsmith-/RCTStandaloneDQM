@@ -5,7 +5,7 @@ import sys
 
 run = int(sys.argv[1])
 
-dqmFile = ROOT.TFile.Open('run%d.root' % run)
+dqmFile = ROOT.TFile.Open('outputs/run%d.root' % run)
 
 l1tPUMfolder = dqmFile.Get('DQMData/Run %d/L1T/Run summary/L1TPUM' % run)
 
