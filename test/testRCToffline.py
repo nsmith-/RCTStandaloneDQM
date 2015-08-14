@@ -29,7 +29,10 @@ process.MessageLogger.cerr.FwkReport = cms.untracked.PSet( reportEvery = cms.unt
 process.options = cms.untracked.PSet( wantSummary = cms.untracked.bool(True) )
 
 process.load('Configuration/StandardSequences/FrontierConditions_GlobalTag_condDBv2_cff')
-process.GlobalTag.globaltag = 'GR_H_V58C'
+process.GlobalTag.globaltag = '74X_dataRun2_Express_v1'
+# Channel mask record does not propogate to FrontierProd as fast as we'd like
+# Hopefully this doesn't qualify as abuse
+process.GlobalTag.connect = 'oracle://cms_orcon_adg/CMS_CONDITIONS'
 process.es_prefer_GlobalTag = cms.ESPrefer('PoolDBESSource', 'GlobalTag')
 
 # Due to Stage 1 layer 2 not having O2O yet

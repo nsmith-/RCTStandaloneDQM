@@ -41,7 +41,7 @@ for runNo in sorted(newRuns.keys(), reverse=True) :
 runCache.update(newRuns)
 
 with open('runCache.json', 'w') as cacheFile :
-    json.dump(runCache, cacheFile, indent=4)
+    json.dump(runCache, cacheFile, indent=4, sort_keys=True)
 
 with open('batchSubmit.sh', 'w') as outFile :
     outFile.write('''#!/bin/bash
