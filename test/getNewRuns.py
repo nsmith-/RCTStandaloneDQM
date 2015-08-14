@@ -56,7 +56,7 @@ bsub -q 8nh -J RCTDQMRun{number} -o logs/run{number}.log <<EOF
 cd $(pwd)
 source /afs/cern.ch/cms/cmsset_default.sh
 cmsenv
-cmsRun testRCToffline.py useORCON=true runNumber={number} dataStream='{datasetUsed}' 2>/dev/null | grep -v '^1111$'
+cmsRun testRCToffline.py useORCON=true runNumber={number} dataStream='{datasetUsed}' 2>/dev/null
 mv DQM_V0001_R{number:0>9}__L1TMonitor__Calo__RCTOffline.root outputs/run{number}.root
 EOF
 '''.format(**runDict)
