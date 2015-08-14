@@ -19,16 +19,27 @@ cd ..
 scram b -j 4
 ```
 
+Automated Setup
+---------------
+A cronjob is set up in `rctcmstr` to check for new runs every hour.
+
+The outputs can be found at http://cmsdoc.cern.ch/~rctcmstr/RCTStandaloneDQM/
+
 Running a single job
 --------------------
-You can specify a run, and optionally specify a list of lumis, e.g.
+From `test`, there is the CMSSW config `testRCToffline.py` and the helper script to make nice plots `manualOutputToWeb.sh`.
+For the most part, the config can be left alone, but choose a web directory for the output script if you don't like the default.
+
+In the cmsRun config, you can specify a run, and optionally specify a list of lumis, e.g.
 ```bash
 cmsRun testRCToffline.py runNumber=251718 lumis=170-190
 ```
 There is also `dataStream=...` option, defaults to `/ExpressPhysics/Run2015C-Express-v1/FEVT`
 The default number of events processed is 60k, but one can safely Ctrl-C these processes if impatient.
 
-Running Automated Setup
+After running some configs, execute `manualOutputToWeb.sh` to print plots to the chosen web directory.
+
+Testing Automated Setup
 -----------------------
 From `test` on an lxplus machine (lxplus needed for `bsub`):
    * Set up the web directory in `batchOutputToWeb.sh`
