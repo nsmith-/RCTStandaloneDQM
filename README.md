@@ -18,23 +18,25 @@ cd ..
 scram b -j 4
 ```
 
-Running Test Setup
-------------------
-From `test` on an lxplus machine (for `bsub`):
-   * Set up the web directory in `batchOutputToWeb.sh`
-   * Double-check datasets for run conditions in `getNewRuns.py`
-   * Run `getNewRuns.py`
-   * Double-check the file produced - `batchSubmit.sh` looks ok
-   * Execute `batchSubmit.sh`
-   * Wait for jobs to finish (check with `bjobs`)
-   * Run `batchOutputToWeb.sh`
-
-This will be set up on `rctcmstr` under `/afs/cern.ch/work/r/rctcmstr/` soon.
-
 Running a single job
 --------------------
-You can skip batchSubmit and go straight to cmsRun, and optionally specify a list of lumis, e.g.
+You can specify a run, and optionally specify a list of lumis, e.g.
 ```bash
 cmsRun testRCToffline.py runNumber=251718 lumis=170-190
 ```
 There is also `dataStream=...` option, defaults to `/ExpressPhysics/Run2015C-Express-v1/FEVT`
+The default number of events processed is 60k, but one can safely Ctrl-C these processes if impatient.
+
+Running Automated Setup
+-----------------------
+From `test` on an lxplus machine (lxplus needed for `bsub`):
+   * Set up the web directory in `batchOutputToWeb.sh`
+   * Run `getNewRuns.py`
+   * Execute `batchSubmit.sh`
+   * Wait for jobs to finish (check with `bjobs`)
+   * Run `batchOutputToWeb.sh`
+
+This automated setup is installed on `rctcmstr` under `/afs/cern.ch/work/r/rctcmstr/`.
+
+In the future, it will run a cron job equivalent to the above instructions.
+
