@@ -2,7 +2,7 @@
 
 cd /afs/cern.ch/work/r/rctcmstr/CMSSW_7_4_9/src/
 source /afs/cern.ch/cms/cmsset_default.sh
-cmsenv
+eval `scramv1 runtime -sh`
 cd DQM/RCTStandaloneDQM
 git checkout master
 git reset --hard HEAD
