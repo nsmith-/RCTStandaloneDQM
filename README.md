@@ -12,6 +12,7 @@ From new CMSSW_7_4_9:
 ```bash
 # This pull request should be merged soon
 git cms-merge-topic --unsafe 10381
+git cms-addpkg DQMOffline/L1Trigger
 cd DQM
 git clone https://github.com/nsmith-/RCTStandaloneDQM.git
 cd ..
