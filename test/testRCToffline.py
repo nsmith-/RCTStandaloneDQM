@@ -62,7 +62,7 @@ process.qTester = cms.EDAnalyzer("QualityTester",
 process.p = cms.Path(process.rctdqm*process.qTester*process.dqmSaver)
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(-1)
+    input = cms.untracked.int32(60000)
 )
 
 process.source = cms.Source("PoolSource",
