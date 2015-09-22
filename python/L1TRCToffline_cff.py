@@ -12,6 +12,10 @@ from L1Trigger.Configuration.L1Config_cff import *
 from DQM.L1TMonitor.L1TEmulatorMonitor_cff import *
 from DQM.L1TMonitor.L1TMonitor_cff import *
 
+# TODO: if we move to online DQM, switch
+# from DQM.L1TMonitor.L1TLayer1_cfi import *
+from DQM.RCTStandaloneDQM.L1TLayer1_cfi import *
+
 l1tRctfromGCT = l1tRct.clone()
 l1tRctfromGCT.rctSource = 'gctDigis'
 l1tRctfromGCT.HistFolder = cms.untracked.string('L1T/L1TRCT_FromGCT')
@@ -28,5 +32,5 @@ rctdqm = cms.Sequence(
     RawToDigi
     *L1HardwareValidation
     *(l1tRct + l1tRctfromRCT + l1tRctfromGCT + l1tPUM)
-    *(l1TdeRCT + l1TdeRCTfromRCT + l1TdeRCTfromGCT)
+    *(l1TdeRCT + l1TdeRCTfromRCT + l1TdeRCTfromGCT + l1tLayer1)
 )
