@@ -14,7 +14,7 @@ From new CMSSW_7_4_12_patch4:
 git cms-merge-topic --unsafe 10880
 git cms-addpkg DQMOffline/L1Trigger
 cd DQM
-git clone https://github.com/nsmith-/RCTStandaloneDQM.git
+git clone -b L1TStage1DQM https://github.com/nsmith-/RCTStandaloneDQM.git
 cd ..
 scram b -j 4
 ```
@@ -26,6 +26,7 @@ https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideORACLEProductionAndDevelop
 Automated Setup
 ---------------
 A cronjob is set up in `rctcmstr` to check for new runs every hour.
+It runs off the `master` branch of this repository.
 
 The outputs can be found at http://cmsdoc.cern.ch/~rctcmstr/RCTStandaloneDQM/
 
@@ -53,6 +54,4 @@ From `test` on an lxplus machine (lxplus needed for `bsub`):
    * Run `batchOutputToWeb.sh`
 
 This automated setup is installed on `rctcmstr` under `/afs/cern.ch/work/r/rctcmstr/`.
-
-In the future, it will run a cron job equivalent to the above instructions.
 
