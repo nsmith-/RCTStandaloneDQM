@@ -7,11 +7,11 @@ It is mostly for RCT experts to investigate issues in the hardware.
 Installation
 ------------
 
-From new CMSSW_7_4_9:
+From new CMSSW_7_4_12_patch4:
 
 ```bash
 # This pull request should be merged soon
-git cms-merge-topic --unsafe 10381
+git cms-merge-topic --unsafe 10880
 git cms-addpkg DQMOffline/L1Trigger
 cd DQM
 git clone https://github.com/nsmith-/RCTStandaloneDQM.git
