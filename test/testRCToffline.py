@@ -7,6 +7,7 @@ options.register('runNumber', 0, VarParsing.multiplicity.singleton, VarParsing.v
 options.register('lumis', '1-max', VarParsing.multiplicity.singleton, VarParsing.varType.string, 'Lumis')
 options.register('dataStream', '/ExpressPhysics/Run2015D-Express-v3/FEVT', VarParsing.multiplicity.singleton, VarParsing.varType.string, 'Dataset to look for run in')
 options.register('inputFiles', [], VarParsing.multiplicity.list, VarParsing.varType.string, 'Manual file list input, will query DAS if empty')
+options.register('inputFileList', '', VarParsing.multiplicity.singleton, VarParsing.varType.string, 'Manual file list input, will query DAS if empty')
 options.register('useORCON', False, VarParsing.multiplicity.singleton, VarParsing.varType.bool, 'Use ORCON for conditions.  This is necessary for very recent runs where conditions have not propogated to Frontier')
 options.parseArguments()
 
@@ -16,8 +17,11 @@ def formatLumis(lumistring, run) :
     return ['-'.join(l) for l in runlumis]
 
 print 'Getting files for run %d...' % options.runNumber
-if len(options.inputFiles) is 0 :
+if len(options.inputFiles) is 0 and options.inputFileList is '' :
     inputFiles = util.getFilesForRun(options.runNumber, options.dataStream)
+elif len(options.inputFileList) > 0 :
+    with open(options.inputFileList) as f :
+        inputFiles = list((line.strip() for line in f))
 else :
     inputFiles = cms.untracked.vstring(options.inputFiles)
 if len(inputFiles) is 0 :
@@ -62,7 +66,7 @@ process.qTester = cms.EDAnalyzer("QualityTester",
 process.p = cms.Path(process.rctdqm*process.qTester*process.dqmSaver)
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(60000)
+    input = cms.untracked.int32(-1)
 )
 
 process.source = cms.Source("PoolSource",
