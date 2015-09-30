@@ -75,10 +75,19 @@ void L1TLayer1::analyze(const edm::Event & event, const edm::EventSetup & es)
     if(((ecalTp.sample(0).raw()>>13) & 0x7)==0)
       { 
 	for ( const auto& ecalTps : *ecalTPsSent ) {
-	  if(ecalTp.id().ieta()!=ecalTps.id().ieta() && ecalTp.id().iphi()!=ecalTps.id().iphi())
+	  if(ecalTp.id().ieta()==ecalTps.id().ieta() && ecalTp.id().iphi()==ecalTps.id().iphi())
 	    {
-	      float etaBin = ecalTp.id().ieta() + ((ecalTp.id().ieta() > 0) ? -0.5 : 0.5);
-	      ecalTPOccupancy2DNoMatch_->Fill(etaBin, ecalTp.id().iphi());
+	      if(ecalTp.compressedEt()!=ecalTps.compressedEt())
+		{
+		  float etaBin = ecalTp.id().ieta() + ((ecalTp.id().ieta() > 0) ? -0.5 : 0.5);
+		  ecalTPOccupancy2DNoMatch_->Fill(etaBin, ecalTp.id().iphi());
+		}
+	      if(ecalTp.compressedEt()==ecalTps.compressedEt())
+		{
+		  float etaBin = ecalTp.id().ieta() + ((ecalTp.id().ieta() > 0) ? -0.5 : 0.5);
+		  ecalTPOccupancy2DMatch_->Fill(etaBin, ecalTp.id().iphi());
+		}
+	      
 	    }
 	}
       }
@@ -176,7 +185,11 @@ void L1TLayer1::bookHistograms(DQMStore::IBooker &ibooker, const edm::Run& run ,
       TPGETABINS, TPGETAMIN, TPGETAMAX, TPGPHIBINS, TPGPHIMIN, TPGPHIMAX);
 
   ecalTPOccupancy2DNoMatch_ = ibooker.book2D("ecalTPOccupancy2DNoMatch", 
-      "ECal TP Occupancy when recieved/sent not match "+sourceString(ecalTPSourceRecdLabel_),
+      "ECal TP Occupancy when compressed ET don't match between recieved/sent links "+sourceString(ecalTPSourceRecdLabel_),
+      TPGETABINS, TPGETAMIN, TPGETAMAX, TPGPHIBINS, TPGPHIMIN, TPGPHIMAX);
+
+  ecalTPOccupancy2DMatch_ = ibooker.book2D("ecalTPOccupancy2DMatch", 
+      "ECal TP Occupancy when compressed ET don't match between recieved/sent links"+sourceString(ecalTPSourceRecdLabel_),
       TPGETABINS, TPGETAMIN, TPGETAMAX, TPGPHIBINS, TPGPHIMIN, TPGPHIMAX);
 
 
