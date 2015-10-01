@@ -77,15 +77,20 @@ void L1TLayer1::analyze(const edm::Event & event, const edm::EventSetup & es)
 	for ( const auto& ecalTps : *ecalTPsSent ) {
 	  if(ecalTp.id().ieta()==ecalTps.id().ieta() && ecalTp.id().iphi()==ecalTps.id().iphi())
 	    {
-	      if(ecalTp.compressedEt()!=ecalTps.compressedEt())
+	      //std::cout<<"ecalTp.id().ieta() "<<ecalTp.id().ieta()<<"ecalTps.id().ieta(): "<<ecalTps.id().ieta()<<std::endl;
+	      if ( ecalTp.compressedEt() > tpFillThreshold_ && ecalTps.compressedEt() > tpFillThreshold_)
 		{
-		  float etaBin = ecalTp.id().ieta() + ((ecalTp.id().ieta() > 0) ? -0.5 : 0.5);
-		  ecalTPOccupancy2DNoMatch_->Fill(etaBin, ecalTp.id().iphi());
-		}
-	      if(ecalTp.compressedEt()==ecalTps.compressedEt())
-		{
-		  float etaBin = ecalTp.id().ieta() + ((ecalTp.id().ieta() > 0) ? -0.5 : 0.5);
-		  ecalTPOccupancy2DMatch_->Fill(etaBin, ecalTp.id().iphi());
+		  if(ecalTp.compressedEt()!=ecalTps.compressedEt())
+		    {
+		      //std::cout<<"ecalTp.compressedEt() "<<ecalTp.compressedEt()<<"ecalTps.compressedEt() "<<ecalTps.compressedEt()<<std::endl;
+		      float etaBin = ecalTp.id().ieta() + ((ecalTp.id().ieta() > 0) ? -0.5 : 0.5);
+		      ecalTPOccupancy2DNoMatch_->Fill(etaBin, ecalTp.id().iphi());
+		    }
+		  if(ecalTp.compressedEt()==ecalTps.compressedEt())
+		    {
+		      float etaBin = ecalTp.id().ieta() + ((ecalTp.id().ieta() > 0) ? -0.5 : 0.5);
+		      ecalTPOccupancy2DMatch_->Fill(etaBin, ecalTp.id().iphi());
+		    }
 		}
 	      
 	    }
