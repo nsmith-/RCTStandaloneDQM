@@ -35,22 +35,32 @@ class L1TLayer1 : public DQMEDAnalyzer {
     void beginLuminosityBlock(const edm::LuminosityBlock&, const edm::EventSetup&);
   
   private:
-    edm::EDGetTokenT<EcalTrigPrimDigiCollection> ecalTPSourceData_;
-    std::string ecalTPSourceDataLabel_;
-    edm::EDGetTokenT<HcalTrigPrimDigiCollection> hcalTPSourceData_;
-    std::string hcalTPSourceDataLabel_;
-    edm::EDGetTokenT<EcalTrigPrimDigiCollection> ecalTPSourceEmul_;
-    std::string ecalTPSourceEmulLabel_;
-    edm::EDGetTokenT<HcalTrigPrimDigiCollection> hcalTPSourceEmul_;
-    std::string hcalTPSourceEmulLabel_;
+    edm::EDGetTokenT<EcalTrigPrimDigiCollection> ecalTPSourceRecd_;
+    std::string ecalTPSourceRecdLabel_;
+    edm::EDGetTokenT<HcalTrigPrimDigiCollection> hcalTPSourceRecd_;
+    std::string hcalTPSourceRecdLabel_;
+    edm::EDGetTokenT<EcalTrigPrimDigiCollection> ecalTPSourceSent_;
+    std::string ecalTPSourceSentLabel_;
+    edm::EDGetTokenT<HcalTrigPrimDigiCollection> hcalTPSourceSent_;
+    std::string hcalTPSourceSentLabel_;
 
     std::string histFolder_;
     int tpFillThreshold_;
 
-    MonitorElement * ecalTPOccupancyData2D_;
-    MonitorElement * hcalTPOccupancyData2D_;
-    MonitorElement * ecalTPOccupancyEmul2D_;
-    MonitorElement * hcalTPOccupancyEmul2D_;
+    MonitorElement * ecalTPOccupancyRecd2D_;
+    MonitorElement * hcalTPOccupancyRecd2D_;
+    MonitorElement * ecalTPOccupancySent2D_;
+    MonitorElement * hcalTPOccupancySent2D_;
+    MonitorElement * ecalTPCompressedEtRecd_;
+    MonitorElement * hcalTPCompressedEtRecd_;
+    MonitorElement * hcalTPCompressedEtSent_;
+    MonitorElement * ecalTPCompressedEtSent_;
+    MonitorElement * ecalTPOccupancyRecd2D_isECALTowerMasked_;
+    MonitorElement * ecalTPOccupancyRecd2D_isECALLinkMasked_;
+    MonitorElement * ecalTPOccupancyRecd2D_isECALLinkInError_;
+    MonitorElement * ecalTPOccupancy2DNoMatch_;
+    MonitorElement * ecalTPOccupancy2DMatch_;
+    MonitorElement * ecalTPCompressedEtdiff_;
 };
 
 #endif
