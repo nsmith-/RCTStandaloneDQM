@@ -60,7 +60,7 @@ class L1TLayer1 : public DQMEDAnalyzer {
     MonitorElement * ecalTPOccupancyRecd2D_isECALLinkInError_;
     MonitorElement * ecalTPOccupancy2DNoMatch_;
     MonitorElement * ecalTPOccupancy2DMatch_;
-    
+    MonitorElement * ecalTPCompressedEtdiff_;
 };
 
 #endif

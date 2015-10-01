@@ -25,9 +25,13 @@ namespace {
   const float TPGPHIMIN = -0.5;
   const float TPGPHIMAX = 71.5;
 
-  const unsigned int TPGEtbins = 256;
+  const unsigned int TPGEtbins = 255;
   const float TPGEtMIN = 0.0;
   const float TPGEtMAX = 255.0;
+
+  const unsigned int TPGEtbins1 = 510;
+  const float TPGEtMIN1 = -255.0;
+  const float TPGEtMAX1 = 255.0;
 };
 
 L1TLayer1::L1TLayer1(const edm::ParameterSet & ps) :
@@ -80,9 +84,9 @@ void L1TLayer1::analyze(const edm::Event & event, const edm::EventSetup & es)
 	      //std::cout<<"ecalTp.id().ieta() "<<ecalTp.id().ieta()<<"ecalTps.id().ieta(): "<<ecalTps.id().ieta()<<std::endl;
 	      if ( ecalTp.compressedEt() > tpFillThreshold_ && ecalTps.compressedEt() > tpFillThreshold_)
 		{
+		  ecalTPCompressedEtdiff_->Fill(ecalTp.compressedEt()-ecalTps.compressedEt());
 		  if(ecalTp.compressedEt()!=ecalTps.compressedEt())
 		    {
-		      //std::cout<<"ecalTp.compressedEt() "<<ecalTp.compressedEt()<<"ecalTps.compressedEt() "<<ecalTps.compressedEt()<<std::endl;
 		      float etaBin = ecalTp.id().ieta() + ((ecalTp.id().ieta() > 0) ? -0.5 : 0.5);
 		      ecalTPOccupancy2DNoMatch_->Fill(etaBin, ecalTp.id().iphi());
 		    }
@@ -151,6 +155,11 @@ void L1TLayer1::bookHistograms(DQMStore::IBooker &ibooker, const edm::Run& run ,
   ecalTPCompressedEtRecd_ = ibooker.book1D("ecalTPCompressedEtRecd",
 				       "ECal Compressed Et received"+sourceString(ecalTPSourceRecdLabel_),
 				       TPGEtbins, TPGEtMIN, TPGEtMAX);
+
+
+  ecalTPCompressedEtdiff_ = ibooker.book1D("ecalTPCompressedEtdiff",
+				       "ECal Compressed Et difference (received - sent)"+sourceString(ecalTPSourceRecdLabel_),
+				       TPGEtbins1, TPGEtMIN1, TPGEtMAX1);
 
 
   hcalTPCompressedEtRecd_ = ibooker.book1D("hcalTPCompressedEtRecd",
