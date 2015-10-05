@@ -84,14 +84,18 @@ void L1TLayer1::analyze(const edm::Event & event, const edm::EventSetup & es)
 	      //std::cout<<"ecalTp.id().ieta() "<<ecalTp.id().ieta()<<"ecalTps.id().ieta(): "<<ecalTps.id().ieta()<<std::endl;
 	      if ( ecalTp.compressedEt() > tpFillThreshold_ && ecalTps.compressedEt() > tpFillThreshold_)
 		{
-		  ecalTPCompressedEtdiff_->Fill(ecalTp.compressedEt()-ecalTps.compressedEt());
 		  if(ecalTp.compressedEt()!=ecalTps.compressedEt())
 		    {
-		      float etaBin = ecalTp.id().ieta() + ((ecalTp.id().ieta() > 0) ? -0.5 : 0.5);
-		      ecalTPOccupancy2DNoMatch_->Fill(etaBin, ecalTp.id().iphi());
+		        ecalTPCompressedEtdiff_->Fill(ecalTp.compressedEt()-ecalTps.compressedEt());
+			ecalTPCompressedEtRecdnomatch_->Fill(ecalTp.compressedEt());
+			ecalTPCompressedEtSentnomatch_->Fill(ecalTps.compressedEt());
+			float etaBin = ecalTp.id().ieta() + ((ecalTp.id().ieta() > 0) ? -0.5 : 0.5);
+			ecalTPOccupancy2DNoMatch_->Fill(etaBin, ecalTp.id().iphi());
 		    }
 		  if(ecalTp.compressedEt()==ecalTps.compressedEt())
 		    {
+		      ecalTPCompressedEtRecdmatch_->Fill(ecalTp.compressedEt());
+		      ecalTPCompressedEtSentmatch_->Fill(ecalTps.compressedEt());
 		      float etaBin = ecalTp.id().ieta() + ((ecalTp.id().ieta() > 0) ? -0.5 : 0.5);
 		      ecalTPOccupancy2DMatch_->Fill(etaBin, ecalTp.id().iphi());
 		    }
@@ -157,6 +161,25 @@ void L1TLayer1::bookHistograms(DQMStore::IBooker &ibooker, const edm::Run& run ,
 				       TPGEtbins, TPGEtMIN, TPGEtMAX);
 
 
+  ecalTPCompressedEtRecdnomatch_ = ibooker.book1D("ecalTPCompressedEtRecd_nomatch",
+				       "ECal Compressed Et received for (received - sent !=0)"+sourceString(ecalTPSourceRecdLabel_),
+				       TPGEtbins, TPGEtMIN, TPGEtMAX);
+
+  ecalTPCompressedEtSentnomatch_ = ibooker.book1D("ecalTPCompressedEtSent_nomatch",
+				       "ECal Compressed Et sent for (received - sent !=0)"+sourceString(ecalTPSourceRecdLabel_),
+						  TPGEtbins, TPGEtMIN, TPGEtMAX);
+
+
+
+  ecalTPCompressedEtRecdmatch_ = ibooker.book1D("ecalTPCompressedEtRecd_match",
+				       "ECal Compressed Et received for (received - sent =0)"+sourceString(ecalTPSourceRecdLabel_),
+				       TPGEtbins, TPGEtMIN, TPGEtMAX);
+
+  ecalTPCompressedEtSentmatch_ = ibooker.book1D("ecalTPCompressedEtSent_match",
+				       "ECal Compressed Et sent for (received - sent =0)"+sourceString(ecalTPSourceRecdLabel_),
+						  TPGEtbins, TPGEtMIN, TPGEtMAX);
+
+
   ecalTPCompressedEtdiff_ = ibooker.book1D("ecalTPCompressedEtdiff",
 				       "ECal Compressed Et difference (received - sent)"+sourceString(ecalTPSourceRecdLabel_),
 				       TPGEtbins1, TPGEtMIN1, TPGEtMAX1);
@@ -203,7 +226,7 @@ void L1TLayer1::bookHistograms(DQMStore::IBooker &ibooker, const edm::Run& run ,
       TPGETABINS, TPGETAMIN, TPGETAMAX, TPGPHIBINS, TPGPHIMIN, TPGPHIMAX);
 
   ecalTPOccupancy2DMatch_ = ibooker.book2D("ecalTPOccupancy2DMatch", 
-      "ECal TP Occupancy when compressed ET don't match between recieved/sent links"+sourceString(ecalTPSourceRecdLabel_),
+      "ECal TP Occupancy when compressed ET  match between recieved/sent links"+sourceString(ecalTPSourceRecdLabel_),
       TPGETABINS, TPGETAMIN, TPGETAMAX, TPGPHIBINS, TPGPHIMIN, TPGPHIMAX);
 
 
