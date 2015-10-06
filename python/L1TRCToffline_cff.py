@@ -19,7 +19,7 @@ from DQM.RCTStandaloneDQM.L1TLayer1_cfi import *
 from EventFilter.L1TCaloLayer1RawToDigi.Config import *
 
 
-RctDigislayer1=rctDigis.clone()
+RctDigislayer1=valRctDigis.clone()
 RctDigislayer1.ecalDigis = cms.VInputTag(cms.InputTag('l1tCaloLayer1Digis')
 )
 
@@ -40,8 +40,7 @@ l1TdeRCTfromLayer1.HistFolder = cms.untracked.string('L1TEMU/L1TdeRCT_Fromlayer1
 
 
 # Trim some unnecessary steps
-RawToDigi = cms.Sequence(rctDigis+(caloStage1Digis*caloStage1LegacyFormatDigis)+gctDigis+gtDigis+ecalDigis+hcalDigis+scalersRawToDigi)
-#RawToDigi = cms.Sequence(l1tCaloLayer1RawToDigi)
+RawToDigi = cms.Sequence(rctDigis+(caloStage1Digis*caloStage1LegacyFormatDigis)+gctDigis+gtDigis+ecalDigis+hcalDigis+scalersRawToDigi+l1tCaloLayer1Digis)
 L1HardwareValidation = cms.Sequence(deEcal+deHcal+deRct+deStage1Layer2)
 
 rctdqm = cms.Sequence(
