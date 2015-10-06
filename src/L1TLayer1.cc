@@ -106,6 +106,11 @@ void L1TLayer1::analyze(const edm::Event & event, const edm::EventSetup & es)
       }
   
   
+    if(((ecalTp.sample(0).raw()>>12)&1)==1){
+      float etaBin = ecalTp.id().ieta() + ((ecalTp.id().ieta() > 0) ? -0.5 : 0.5);
+      ecalTPOccupancyRecd2D_isFineGrainVB_->Fill(etaBin, ecalTp.id().iphi());
+    }
+
     if(((ecalTp.sample(0).raw()>>13)&1)==1){
       float etaBin = ecalTp.id().ieta() + ((ecalTp.id().ieta() > 0) ? -0.5 : 0.5);
       ecalTPOccupancyRecd2D_isECALTowerMasked_->Fill(etaBin, ecalTp.id().iphi());
@@ -206,6 +211,12 @@ void L1TLayer1::bookHistograms(DQMStore::IBooker &ibooker, const edm::Run& run ,
   
   ecalTPOccupancyRecd2D_isECALTowerMasked_ = ibooker.book2D("ecalTPOccupancyRecd2D_isECALTowerMasked", 
       "ECal TP Occupancy received for the ECAL Masked towers"+sourceString(ecalTPSourceRecdLabel_),
+      TPGETABINS, TPGETAMIN, TPGETAMAX, TPGPHIBINS, TPGPHIMIN, TPGPHIMAX);
+
+
+
+  ecalTPOccupancyRecd2D_isFineGrainVB_ = ibooker.book2D("ecalTPOccupancyRecd2D_isFineGrainVB", 
+      "ECal TP Occupancy received for the fine grain veto"+sourceString(ecalTPSourceRecdLabel_),
       TPGETABINS, TPGETAMIN, TPGETAMAX, TPGPHIBINS, TPGPHIMIN, TPGPHIMAX);
 
 

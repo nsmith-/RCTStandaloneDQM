@@ -65,6 +65,7 @@ class L1TLayer1 : public DQMEDAnalyzer {
     MonitorElement *ecalTPCompressedEtSentnomatch_ ;
     MonitorElement *ecalTPCompressedEtRecdmatch_ ;
     MonitorElement *ecalTPCompressedEtSentmatch_ ;
+    MonitorElement *ecalTPOccupancyRecd2D_isFineGrainVB_;
 };
 
 #endif
