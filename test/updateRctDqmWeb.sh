@@ -40,7 +40,8 @@ genRunIndex ()
 Source: 
 <input type="radio" onclick="togglePlots()" name="source" value="CTP7" checked>CTP7
 <input type="radio" onclick="togglePlots()" name="source" value="MP7">MP7
-<input type="radio" onclick="togglePlots()" name="source" value="GCT">GCT<br />
+<input type="radio" onclick="togglePlots()" name="source" value="GCT">GCT
+<input type="radio" onclick="togglePlots()" name="source" value="layer1">Layer1<br />
 </form>
 <h2 id="label">RCT Digis from CTP7</h2>
 <script type="text/javascript">
@@ -48,6 +49,7 @@ function togglePlots() {
   ctp7 = document.getElementById('fromCTP7');
   mp7  = document.getElementById('fromMP7');
   gct  = document.getElementById('fromGCT');
+  layer1  = document.getElementById('fromlayer1');
   pum  = document.getElementById('pum');
   label  = document.getElementById('label');
   label2  = document.getElementById('label2');
@@ -56,6 +58,7 @@ function togglePlots() {
     pum.style.display = 'block';
     gct.style.display = 'none';
     mp7.style.display = 'none';
+    layer1.style.display = 'none';
     label.innerHTML = 'RCT Digis from CTP7';
     label2.innerHTML = 'RCT Digis from CTP7';
   } else if ( document.forms[0].source.value == "MP7" ) {
@@ -63,6 +66,7 @@ function togglePlots() {
     pum.style.display = 'none';
     gct.style.display = 'none';
     mp7.style.display = 'block';
+    layer1.style.display = 'none';
     label.innerHTML = 'RCT Digis from MP7';
     label2.innerHTML = 'RCT Digis from MP7';
   } else if ( document.forms[0].source.value == "GCT" ) {
@@ -70,8 +74,17 @@ function togglePlots() {
     pum.style.display = 'none';
     gct.style.display = 'block';
     mp7.style.display = 'none';
+    layer1.style.display = 'none';
     label.innerHTML = 'RCT Digis from GCT';
     label2.innerHTML = 'RCT Digis from GCT';
+  } else if ( document.forms[0].source.value == "layer1" ) {
+    ctp7.style.display = 'none';
+    pum.style.display = 'none';
+    gct.style.display = 'none';
+    mp7.style.display = 'none';
+    layer1.style.display = 'block';
+    label.innerHTML = 'RCT Digis from Layer1';
+    label2.innerHTML = 'RCT Digis from Layer1';
   }
 }
 
@@ -97,6 +110,15 @@ EOF
   echo '<div id="fromGCT" style="display: none;">' >> index.html
   for img in *_L1TdeRCT_FromGCT.png ; do
     [[ $img == '*_L1TdeRCT_FromGCT.png' ]] && break
+    echo Generating thumbnail for $img...
+    convert -scale 240 $img thumb-$img
+    echo "<a href=\"$img\"><img src=\"thumb-$img\"></a> " >> index.html
+  done
+  echo '</div>' >> index.html
+  
+  echo '<div id="fromlayer1" style="display: none;">' >> index.html
+  for img in *_L1TdeRCT_Fromlayer1.png ; do
+    [[ $img == '*_L1TdeRCT_Fromlayer1.png' ]] && break
     echo Generating thumbnail for $img...
     convert -scale 240 $img thumb-$img
     echo "<a href=\"$img\"><img src=\"thumb-$img\"></a> " >> index.html
