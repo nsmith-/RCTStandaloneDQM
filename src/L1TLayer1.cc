@@ -106,7 +106,7 @@ void L1TLayer1::analyze(const edm::Event & event, const edm::EventSetup & es)
       }
   
   
-    if(((ecalTp.sample(0).raw()>>12)&1)==1){
+    if(ecalTp.fineGrain()==1){
       float etaBin = ecalTp.id().ieta() + ((ecalTp.id().ieta() > 0) ? -0.5 : 0.5);
       ecalTPOccupancyRecd2D_isFineGrainVB_->Fill(etaBin, ecalTp.id().iphi());
     }
@@ -145,6 +145,12 @@ void L1TLayer1::analyze(const edm::Event & event, const edm::EventSetup & es)
       float etaBin = 1.*ecalTp.id().ieta() + ((ecalTp.id().ieta() > 0) ? -0.5 : 0.5);
       ecalTPOccupancySent2D_->Fill(etaBin, ecalTp.id().iphi());
     }
+
+    if(ecalTp.fineGrain()==1){
+      float etaBin = ecalTp.id().ieta() + ((ecalTp.id().ieta() > 0) ? -0.5 : 0.5);
+      ecalTPOccupancySent2D_isFineGrainVB_->Fill(etaBin, ecalTp.id().iphi());
+    }
+
   }
   for ( const auto& hcalTp : *hcalTPsSent ) {
     hcalTPCompressedEtSent_->Fill(hcalTp.SOI_compressedEt());
@@ -217,6 +223,10 @@ void L1TLayer1::bookHistograms(DQMStore::IBooker &ibooker, const edm::Run& run ,
 
   ecalTPOccupancyRecd2D_isFineGrainVB_ = ibooker.book2D("ecalTPOccupancyRecd2D_isFineGrainVB", 
       "ECal TP Occupancy received for the fine grain veto"+sourceString(ecalTPSourceRecdLabel_),
+      TPGETABINS, TPGETAMIN, TPGETAMAX, TPGPHIBINS, TPGPHIMIN, TPGPHIMAX);
+
+  ecalTPOccupancySent2D_isFineGrainVB_ = ibooker.book2D("ecalTPOccupancySent2D_isFineGrainVB", 
+      "ECal TP Occupancy sent for the fine grain veto"+sourceString(ecalTPSourceSentLabel_),
       TPGETABINS, TPGETAMIN, TPGETAMAX, TPGPHIBINS, TPGPHIMIN, TPGPHIMAX);
 
 
