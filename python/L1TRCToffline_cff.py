@@ -34,19 +34,18 @@ l1TdeRCTfromGCT.HistFolder = cms.untracked.string('L1TEMU/L1TdeRCT_FromGCT')
 
 
 l1TdeRCTfromLayer1 = l1TdeRCT.clone()
+l1TdeRCTfromLayer1.ecalTPGData = cms.InputTag('l1tCaloLayer1Digis')
 l1TdeRCTfromLayer1.rctSourceData = 'RctDigislayer1'
 l1TdeRCTfromLayer1.HistFolder = cms.untracked.string('L1TEMU/L1TdeRCT_Fromlayer1')
 
 
-
 # Trim some unnecessary steps
 RawToDigi = cms.Sequence(rctDigis+(caloStage1Digis*caloStage1LegacyFormatDigis)+gctDigis+gtDigis+ecalDigis+hcalDigis+scalersRawToDigi+l1tCaloLayer1Digis)
-L1HardwareValidation = cms.Sequence(deEcal+deHcal+deRct+deStage1Layer2)
+L1HardwareValidation = cms.Sequence(deEcal+deHcal+deRct+deStage1Layer2+RctDigislayer1)
 
 rctdqm = cms.Sequence(
     RawToDigi
     *L1HardwareValidation
-    *l1TdeRCTfromLayer1
     *(l1tRct + l1tRctfromRCT + l1tRctfromGCT + l1tPUM)
-    *(l1TdeRCT + l1TdeRCTfromRCT + l1TdeRCTfromGCT + l1tLayer1)
+    *(l1TdeRCT + l1TdeRCTfromRCT + l1TdeRCTfromGCT + l1TdeRCTfromLayer1 + l1tLayer1)
 )
