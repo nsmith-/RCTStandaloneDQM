@@ -3,8 +3,8 @@ import DQM.RCTStandaloneDQM.util as util
 import json, datetime, os, re
 
 # Default start run if no runCache present
-# One less than first run of /ExpressPhysics/Run2015C-Express-v1/FEVT
-startRun = 253628-1
+# Corresponds to when Layer1 FEDs were consistently in runs
+startRun = 257425
 
 runCache = {}
 if os.path.exists('runCache.json') :
