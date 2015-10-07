@@ -51,6 +51,7 @@ function togglePlots() {
   gct  = document.getElementById('fromGCT');
   layer1  = document.getElementById('fromLayer1');
   pum  = document.getElementById('pum');
+  layer1compare  = document.getElementById('layer1compare');
   label  = document.getElementById('label');
   label2  = document.getElementById('label2');
   if ( document.forms[0].source.value == "CTP7" ) {
@@ -59,6 +60,7 @@ function togglePlots() {
     gct.style.display = 'none';
     mp7.style.display = 'none';
     layer1.style.display = 'none';
+    layer1compare.style.display = 'none';
     label.innerHTML = 'RCT Digis from CTP7';
     label2.innerHTML = 'RCT Digis from CTP7';
   } else if ( document.forms[0].source.value == "MP7" ) {
@@ -67,6 +69,7 @@ function togglePlots() {
     gct.style.display = 'none';
     mp7.style.display = 'block';
     layer1.style.display = 'none';
+    layer1compare.style.display = 'none';
     label.innerHTML = 'RCT Digis from MP7';
     label2.innerHTML = 'RCT Digis from MP7';
   } else if ( document.forms[0].source.value == "GCT" ) {
@@ -75,6 +78,7 @@ function togglePlots() {
     gct.style.display = 'block';
     mp7.style.display = 'none';
     layer1.style.display = 'none';
+    layer1compare.style.display = 'none';
     label.innerHTML = 'RCT Digis from GCT';
     label2.innerHTML = 'RCT Digis from GCT';
   } else if ( document.forms[0].source.value == "Layer1" ) {
@@ -83,8 +87,9 @@ function togglePlots() {
     gct.style.display = 'none';
     mp7.style.display = 'none';
     layer1.style.display = 'block';
-    label.innerHTML = 'RCT Digis from Layer1';
-    label2.innerHTML = 'RCT Digis from Layer1';
+    layer1compare.style.display = 'block';
+    label.innerHTML = 'RCT Emulation from Layer1 TPs';
+    label2.innerHTML = 'RCT Emulation from Layer1 TPs';
   }
 }
 
@@ -130,6 +135,16 @@ EOF
   echo '<div id="pum">' >> index.html
   echo '<h2>Pileup Monitoring Plots</h2>' >> index.html
   for img in *_PUM.png ; do
+    echo Generating thumbnail for $img...
+    convert -scale 240 $img thumb-$img
+    echo "<a href=\"$img\"><img src=\"thumb-$img\"></a> " >> index.html
+  done
+  echo '</div>' >> index.html
+
+  echo '<div id="layer1compare">' >> index.html
+  echo '<h2>Layer1/TCC Link Monitoring Plots</h2>' >> index.html
+  for img in *_L1TLayer1.png ; do
+    [[ $img == '*_L1TLayer1.png' ]] && break
     echo Generating thumbnail for $img...
     convert -scale 240 $img thumb-$img
     echo "<a href=\"$img\"><img src=\"thumb-$img\"></a> " >> index.html

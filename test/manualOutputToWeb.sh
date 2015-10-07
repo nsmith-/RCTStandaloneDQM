@@ -25,6 +25,7 @@ do
   root -b -q -l "newRct.C++(\"${run}\", \"L1TdeRCT_FromGCT\")"
   root -b -q -l "newRct.C++(\"${run}\", \"L1TdeRCT_FromLayer1\")"
   ./dumpPUMplots.py ${run}
+  ./dumpL1TLayer1plots.py ${run}
   mkdir -p manualDQM
   mv run${run} manualDQM
   rm -rf ${webDirectory}/run${run}

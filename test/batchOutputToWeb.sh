@@ -19,6 +19,7 @@ do
   root -b -q -l "newRct.C++(\"${run}\", \"L1TdeRCT_FromGCT\")"
   root -b -q -l "newRct.C++(\"${run}\", \"L1TdeRCT_FromLayer1\")"
   ./dumpPUMplots.py ${run}
+  ./dumpL1TLayer1plots.py ${run}
   mv $file processed/
   mkdir -p dqmAnalysis
   mv run${run} dqmAnalysis
