@@ -13,8 +13,14 @@ From new CMSSW_7_4_12_patch4:
 # This pull request should be merged soon
 git cms-merge-topic --unsafe 10880
 git cms-addpkg DQMOffline/L1Trigger
+git cms-addpkg EventFilter/L1TRawToDigi
+git apply ~ncsmith/public/patchFineGrain.patch
+git commit -am 'MP7 unpacker patch'
 cd DQM
-git clone -b L1TStage1DQM https://github.com/nsmith-/RCTStandaloneDQM.git
+git clone https://github.com/nsmith-/RCTStandaloneDQM.git
+cd ..
+cd EventFilter
+git clone https://github.com/SridharaDasu/L1TCaloLayer1RawToDigi.git
 cd ..
 scram b -j 4
 ```
@@ -54,4 +60,4 @@ From `test` on an lxplus machine (lxplus needed for `bsub`):
    * Run `batchOutputToWeb.sh`
 
 This automated setup is installed on `rctcmstr` under `/afs/cern.ch/work/r/rctcmstr/`.
-
+*Any modifications to this directory are automatically overwritten*
