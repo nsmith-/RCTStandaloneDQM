@@ -41,7 +41,7 @@ Source:
 <input type="radio" onclick="togglePlots()" name="source" value="CTP7" checked>CTP7
 <input type="radio" onclick="togglePlots()" name="source" value="MP7">MP7
 <input type="radio" onclick="togglePlots()" name="source" value="GCT">GCT
-<input type="radio" onclick="togglePlots()" name="source" value="layer1">Layer1<br />
+<input type="radio" onclick="togglePlots()" name="source" value="Layer1">Layer1<br />
 </form>
 <h2 id="label">RCT Digis from CTP7</h2>
 <script type="text/javascript">
@@ -49,7 +49,7 @@ function togglePlots() {
   ctp7 = document.getElementById('fromCTP7');
   mp7  = document.getElementById('fromMP7');
   gct  = document.getElementById('fromGCT');
-  layer1  = document.getElementById('fromlayer1');
+  layer1  = document.getElementById('fromLayer1');
   pum  = document.getElementById('pum');
   label  = document.getElementById('label');
   label2  = document.getElementById('label2');
@@ -77,7 +77,7 @@ function togglePlots() {
     layer1.style.display = 'none';
     label.innerHTML = 'RCT Digis from GCT';
     label2.innerHTML = 'RCT Digis from GCT';
-  } else if ( document.forms[0].source.value == "layer1" ) {
+  } else if ( document.forms[0].source.value == "Layer1" ) {
     ctp7.style.display = 'none';
     pum.style.display = 'none';
     gct.style.display = 'none';
@@ -116,9 +116,9 @@ EOF
   done
   echo '</div>' >> index.html
   
-  echo '<div id="fromlayer1" style="display: none;">' >> index.html
-  for img in *_L1TdeRCT_Fromlayer1.png ; do
-    [[ $img == '*_L1TdeRCT_Fromlayer1.png' ]] && break
+  echo '<div id="fromLayer1" style="display: none;">' >> index.html
+  for img in *_L1TdeRCT_FromLayer1.png ; do
+    [[ $img == '*_L1TdeRCT_FromLayer1.png' ]] && break
     echo Generating thumbnail for $img...
     convert -scale 240 $img thumb-$img
     echo "<a href=\"$img\"><img src=\"thumb-$img\"></a> " >> index.html
@@ -135,6 +135,16 @@ EOF
     echo "<a href=\"$img\"><img src=\"thumb-$img\"></a> " >> index.html
   done
   echo '</div>' >> index.html
+
+  cat <<EOF >> index.html
+<form>
+Source: 
+<input type="radio" onclick="togglePlots()" name="source" value="CTP7" checked>CTP7
+<input type="radio" onclick="togglePlots()" name="source" value="MP7">MP7
+<input type="radio" onclick="togglePlots()" name="source" value="GCT">GCT
+<input type="radio" onclick="togglePlots()" name="source" value="Layer1">Layer1<br />
+</form>
+EOF
 
   echo "<br />Webpage generated on: " `date ` >> index.html
   githash=$(git rev-parse HEAD)

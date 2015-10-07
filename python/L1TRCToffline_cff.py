@@ -18,10 +18,10 @@ from DQM.RCTStandaloneDQM.L1TLayer1_cfi import *
 
 from EventFilter.L1TCaloLayer1RawToDigi.Config import *
 
-
-RctDigislayer1=valRctDigis.clone()
-RctDigislayer1.ecalDigis = cms.VInputTag(cms.InputTag('l1tCaloLayer1Digis')
-)
+RctDigisLayer1=valRctDigis.clone()
+RctDigisLayer1.ecalDigis = cms.VInputTag(cms.InputTag('l1tCaloLayer1Digis'))
+# TODO: when layer1 unpacker has hcal
+#RctDigisLayer1.hcalDigis = cms.VInputTag(cms.InputTag('l1tCaloLayer1Digis'))
 
 l1tRctfromGCT = l1tRct.clone()
 l1tRctfromGCT.rctSource = 'gctDigis'
@@ -35,13 +35,14 @@ l1TdeRCTfromGCT.HistFolder = cms.untracked.string('L1TEMU/L1TdeRCT_FromGCT')
 
 l1TdeRCTfromLayer1 = l1TdeRCT.clone()
 l1TdeRCTfromLayer1.ecalTPGData = cms.InputTag('l1tCaloLayer1Digis')
-l1TdeRCTfromLayer1.rctSourceData = 'RctDigislayer1'
-l1TdeRCTfromLayer1.HistFolder = cms.untracked.string('L1TEMU/L1TdeRCT_Fromlayer1')
-
+# TODO: when layer1 unpacker has hcal
+#l1TdeRCTfromLayer1.hcalTPGData = cms.InputTag('l1tCaloLayer1Digis')
+l1TdeRCTfromLayer1.rctSourceEmul = 'RctDigisLayer1'
+l1TdeRCTfromLayer1.HistFolder = cms.untracked.string('L1TEMU/L1TdeRCT_FromLayer1')
 
 # Trim some unnecessary steps
 RawToDigi = cms.Sequence(rctDigis+(caloStage1Digis*caloStage1LegacyFormatDigis)+gctDigis+gtDigis+ecalDigis+hcalDigis+scalersRawToDigi+l1tCaloLayer1Digis)
-L1HardwareValidation = cms.Sequence(deEcal+deHcal+deRct+deStage1Layer2+RctDigislayer1)
+L1HardwareValidation = cms.Sequence(deEcal+deHcal+deRct+deStage1Layer2+RctDigisLayer1)
 
 rctdqm = cms.Sequence(
     RawToDigi
