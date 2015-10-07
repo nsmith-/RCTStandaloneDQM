@@ -1,0 +1,2 @@
+12 * * * * lxplus.cern.ch /afs/cern.ch/work/r/rctcmstr/CMSSW_7_4_12_patch4/src/DQM/RCTStandaloneDQM/scripts/rctcmstr_cronjob.sh >/afs/cern.ch/work/r/rctcmstr/cron.log 2>&1
+1,31 * * * * lxplus.cern.ch cd /afs/cern.ch/work/r/rctcmstr/CMSSW_7_4_12_patch4/src/DQM/RCTStandaloneDQM/test && rm core.* >/dev/null 2>&1
