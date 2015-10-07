@@ -141,7 +141,7 @@ EOF
   done
   echo '</div>' >> index.html
 
-  echo '<div id="layer1compare">' >> index.html
+  echo '<div id="layer1compare" style="display: none;">' >> index.html
   echo '<h2>Layer1/TCC Link Monitoring Plots</h2>' >> index.html
   for img in *_L1TLayer1.png ; do
     [[ $img == '*_L1TLayer1.png' ]] && break

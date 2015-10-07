@@ -16,7 +16,7 @@ from DQM.L1TMonitor.L1TMonitor_cff import *
 # from DQM.L1TMonitor.L1TLayer1_cfi import *
 from DQM.RCTStandaloneDQM.L1TLayer1_cfi import *
 
-from EventFilter.L1TCaloLayer1RawToDigi.Config import *
+from EventFilter.L1TCaloLayer1RawToDigi.l1tCaloLayer1Digis_cfi import *
 
 RctDigisLayer1=valRctDigis.clone()
 RctDigisLayer1.ecalDigis = cms.VInputTag(cms.InputTag('l1tCaloLayer1Digis'))
@@ -32,8 +32,7 @@ l1TdeRCTfromGCT = l1TdeRCT.clone()
 l1TdeRCTfromGCT.rctSourceData = 'gctDigis'
 l1TdeRCTfromGCT.HistFolder = cms.untracked.string('L1TEMU/L1TdeRCT_FromGCT')
 
-
-l1TdeRCTfromLayer1 = l1TdeRCT.clone()
+l1TdeRCTfromLayer1 = l1TdeRCTfromRCT.clone()
 l1TdeRCTfromLayer1.ecalTPGData = cms.InputTag('l1tCaloLayer1Digis')
 # TODO: when layer1 unpacker has hcal
 #l1TdeRCTfromLayer1.hcalTPGData = cms.InputTag('l1tCaloLayer1Digis')
