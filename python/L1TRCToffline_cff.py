@@ -27,7 +27,6 @@ l1tRctfromGCT = l1tRct.clone()
 l1tRctfromGCT.rctSource = 'gctDigis'
 l1tRctfromGCT.HistFolder = cms.untracked.string('L1T/L1TRCT_FromGCT')
 
-
 l1TdeRCTfromGCT = l1TdeRCT.clone()
 l1TdeRCTfromGCT.rctSourceData = 'gctDigis'
 l1TdeRCTfromGCT.HistFolder = cms.untracked.string('L1TEMU/L1TdeRCT_FromGCT')
@@ -38,6 +37,12 @@ l1TdeRCTfromLayer1.ecalTPGData = cms.InputTag('l1tCaloLayer1Digis')
 #l1TdeRCTfromLayer1.hcalTPGData = cms.InputTag('l1tCaloLayer1Digis')
 l1TdeRCTfromLayer1.rctSourceEmul = 'RctDigisLayer1'
 l1TdeRCTfromLayer1.HistFolder = cms.untracked.string('L1TEMU/L1TdeRCT_FromLayer1')
+
+# Disable the trigger type filters
+l1TdeRCT.filterTriggerType = cms.int32(0)
+l1TdeRCTfromRCT.filterTriggerType = cms.int32(0)
+l1TdeRCTfromGCT.filterTriggerType = cms.int32(0)
+l1TdeRCTfromLayer1 .filterTriggerType = cms.int32(0)
 
 # Trim some unnecessary steps
 RawToDigi = cms.Sequence(rctDigis+(caloStage1Digis*caloStage1LegacyFormatDigis)+gctDigis+gtDigis+ecalDigis+hcalDigis+scalersRawToDigi+l1tCaloLayer1Digis)
