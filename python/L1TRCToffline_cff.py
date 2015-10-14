@@ -39,10 +39,10 @@ l1TdeRCTfromLayer1.rctSourceEmul = 'RctDigisLayer1'
 l1TdeRCTfromLayer1.HistFolder = cms.untracked.string('L1TEMU/L1TdeRCT_FromLayer1')
 
 # Disable the trigger type filters
-l1TdeRCT.filterTriggerType = cms.int32(0)
-l1TdeRCTfromRCT.filterTriggerType = cms.int32(0)
-l1TdeRCTfromGCT.filterTriggerType = cms.int32(0)
-l1TdeRCTfromLayer1 .filterTriggerType = cms.int32(0)
+l1TdeRCT.filterTriggerType = cms.int32(-1)
+l1TdeRCTfromRCT.filterTriggerType = cms.int32(-1)
+l1TdeRCTfromGCT.filterTriggerType = cms.int32(-1)
+l1TdeRCTfromLayer1 .filterTriggerType = cms.int32(-1)
 
 # Trim some unnecessary steps
 RawToDigi = cms.Sequence(rctDigis+(caloStage1Digis*caloStage1LegacyFormatDigis)+gctDigis+gtDigis+ecalDigis+hcalDigis+scalersRawToDigi+l1tCaloLayer1Digis)
