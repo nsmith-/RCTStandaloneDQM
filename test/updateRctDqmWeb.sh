@@ -151,16 +151,6 @@ EOF
   done
   echo '</div>' >> index.html
 
-  cat <<EOF >> index.html
-<form>
-Source: 
-<input type="radio" onclick="togglePlots()" name="source" value="CTP7" checked>CTP7
-<input type="radio" onclick="togglePlots()" name="source" value="MP7">MP7
-<input type="radio" onclick="togglePlots()" name="source" value="GCT">GCT
-<input type="radio" onclick="togglePlots()" name="source" value="Layer1">Layer1<br />
-</form>
-EOF
-
   echo "<br />Webpage generated on: " `date ` >> index.html
   githash=$(git rev-parse HEAD)
   echo "<br />RCTStandaloneDQM version: <a href=\"https://github.com/nsmith-/RCTStandaloneDQM/tree/${githash}\">${githash}</a>" $(git diff-index --quiet HEAD || echo ' <b>DIRTY!</b>') >> index.html
