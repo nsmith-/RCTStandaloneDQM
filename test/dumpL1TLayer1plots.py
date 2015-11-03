@@ -19,7 +19,9 @@ def plot2D(plot) :
 
 def plot1D(plot) :
     plot.Draw()
+    ROOT.gPad.SetLogy(True)
     ROOT.gPad.Print('run%d/%s_L1TLayer1.png' % (run, plot.GetName()))
+    ROOT.gPad.SetLogy(False)
 
 for item in items :
     if type(item) is ROOT.TH2F :
