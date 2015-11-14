@@ -14,10 +14,14 @@ ROOT.gROOT.ProcessLine(".L newRct.C+")
 ROOT.gROOT.ProcessLine("setTDRStyle()")
 
 def plot2D(plot) :
+    ROOT.gStyle.SetOptStat(0)
+    plot.SetStats(False)
     plot.Draw('box')
     ROOT.gPad.Print('run%d/%s_L1TLayer1.png' % (run, plot.GetName()))
 
 def plot1D(plot) :
+    ROOT.gStyle.SetOptStat(111111)
+    plot.SetStats(True)
     plot.Draw()
     ROOT.gPad.SetLogy(True)
     ROOT.gPad.Print('run%d/%s_L1TLayer1.png' % (run, plot.GetName()))
