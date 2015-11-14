@@ -47,26 +47,40 @@ class L1TLayer1 : public DQMEDAnalyzer {
     std::string histFolder_;
     int tpFillThreshold_;
 
-    MonitorElement * ecalTPOccupancyRecd2D_;
-    MonitorElement * hcalTPOccupancyRecd2D_;
-    MonitorElement * ecalTPOccupancySent2D_;
-    MonitorElement * hcalTPOccupancySent2D_;
-    MonitorElement * ecalTPCompressedEtRecd_;
-    MonitorElement * hcalTPCompressedEtRecd_;
-    MonitorElement * hcalTPCompressedEtSent_;
-    MonitorElement * ecalTPCompressedEtSent_;
-    MonitorElement * ecalTPOccupancyRecd2D_isECALTowerMasked_;
-    MonitorElement * ecalTPOccupancyRecd2D_isECALLinkMasked_;
-    MonitorElement * ecalTPOccupancyRecd2D_isECALLinkInError_;
-    MonitorElement * ecalTPOccupancy2DNoMatch_;
-    MonitorElement * ecalTPOccupancy2DMatch_;
-    MonitorElement * ecalTPCompressedEtdiff_;
+    MonitorElement *ecalTPOccupancyRecd2D_;
+    MonitorElement *ecalTPOccupancySent2D_;
+    MonitorElement *ecalTPCompressedEtRecd_;
+    MonitorElement *ecalTPCompressedEtSent_;
+    MonitorElement *ecalTPOccupancyRecd2D_isECALTowerMasked_;
+    MonitorElement *ecalTPOccupancyRecd2D_isECALLinkMasked_;
+    MonitorElement *ecalTPOccupancyRecd2D_isECALLinkInError_;
+    MonitorElement *ecalTPOccupancy2DNoMatch_;
+    MonitorElement *ecalTPOccupancy2DMatch_;
+    MonitorElement *ecalTPCompressedEtdiff_;
     MonitorElement *ecalTPCompressedEtRecdnomatch_ ;
     MonitorElement *ecalTPCompressedEtSentnomatch_ ;
     MonitorElement *ecalTPCompressedEtRecdmatch_ ;
     MonitorElement *ecalTPCompressedEtSentmatch_ ;
     MonitorElement *ecalTPOccupancyRecd2D_isFineGrainVB_;
     MonitorElement *ecalTPOccupancySent2D_isFineGrainVB_;
+
+    MonitorElement *hcalTPOccupancyRecd2D_;
+    MonitorElement *hcalTPOccupancySent2D_;
+    MonitorElement *hcalTPCompressedEtRecd_;
+    MonitorElement *hcalTPCompressedEtSent_;
+    MonitorElement *hcalTPOccupancyRecd2D_isHCALTowerMasked_;
+    MonitorElement *hcalTPOccupancyRecd2D_isHCALLinkMasked_;
+    MonitorElement *hcalTPOccupancyRecd2D_isHCALLinkInError_;
+    MonitorElement *hcalTPOccupancy2DNoMatch_;
+    MonitorElement *hcalTPOccupancy2DMatch_;
+    MonitorElement *hcalTPCompressedEtdiff_;
+    MonitorElement *hcalTPCompressedEtRecdnomatch_ ;
+    MonitorElement *hcalTPCompressedEtSentnomatch_ ;
+    MonitorElement *hcalTPCompressedEtRecdmatch_ ;
+    MonitorElement *hcalTPCompressedEtSentmatch_ ;
+    MonitorElement *hcalTPOccupancyRecd2D_isFineGrainVB_;
+    MonitorElement *hcalTPOccupancySent2D_isFineGrainVB_;
+
 };
 
 #endif
