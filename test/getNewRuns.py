@@ -19,9 +19,13 @@ runsNoDataset = []
 for runNo, runDict in newRuns.iteritems() :
     runDict['batchSubmitted'] = True
     availableDatasets = util.runGetDatasetsAvailable(runNo)
-    useableDatasets = filter(lambda d : re.match('/Express.*/FEVT', d), availableDatasets)
+    useableDatasets = filter(lambda d : re.match('/(?:HI)?Express.*/FEVT', d), availableDatasets)
     if len(useableDatasets) > 0 :
         runDict['datasetUsed'] = useableDatasets[0]
+        if 'HIExpress' in useableDatasets[0] :
+            runDict['HIrun'] = '1'
+        else :
+            runDict['HIrun'] = '0'
     else :
         print 'Removing run %d due to no Express FEVT datasets available' % runNo
         runsNoDataset.append(runNo)
@@ -56,7 +60,7 @@ bsub -q 8nh -J RCTDQMRun{number} -o logs/run{number}.log <<EOF
 cd $(pwd)
 source /afs/cern.ch/cms/cmsset_default.sh
 cmsenv
-cmsRun testRCToffline.py useORCON=true runNumber={number} dataStream='{datasetUsed}'
+cmsRun testRCToffline.py useORCON=true runNumber={number} dataStream='{datasetUsed}' HIrun={HIrun}
 mv DQM_V0001_R{number:0>9}__L1TMonitor__Calo__RCTOffline.root outputs/run{number}.root
 EOF
 '''.format(**runDict)

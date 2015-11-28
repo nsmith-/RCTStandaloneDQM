@@ -9,6 +9,7 @@ options.register('dataStream', '/ExpressPhysics/Run2015D-Express-v3/FEVT', VarPa
 options.register('inputFiles', [], VarParsing.multiplicity.list, VarParsing.varType.string, 'Manual file list input, will query DAS if empty')
 options.register('inputFileList', '', VarParsing.multiplicity.singleton, VarParsing.varType.string, 'Manual file list input, will query DAS if empty')
 options.register('useORCON', False, VarParsing.multiplicity.singleton, VarParsing.varType.bool, 'Use ORCON for conditions.  This is necessary for very recent runs where conditions have not propogated to Frontier')
+options.register('HIrun', False, VarParsing.multiplicity.singleton, VarParsing.varType.bool, 'True if run is HI, i.e. different FED raw data collection')
 options.parseArguments()
 
 def formatLumis(lumistring, run) :
@@ -75,3 +76,28 @@ process.source = cms.Source("PoolSource",
     ),
     lumisToProcess = cms.untracked.VLuminosityBlockRange(formatLumis(options.lumis, options.runNumber))
 )
+
+if options.HIrun :
+    process.castorDigis.InputLabel = cms.InputTag("rawDataRepacker")
+    process.csctfDigis.producer = cms.InputTag("rawDataRepacker")
+    process.dttfDigis.DTTF_FED_Source = cms.InputTag("rawDataRepacker")
+    process.ecalDigis.InputLabel = cms.InputTag("rawDataRepacker")
+    process.ecalPreshowerDigis.sourceTag = cms.InputTag("rawDataRepacker")
+    process.gctDigis.inputLabel = cms.InputTag("rawDataRepacker")
+    process.gtDigis.DaqGtInputTag = cms.InputTag("rawDataRepacker")
+    process.gtEvmDigis.EvmGtInputTag = cms.InputTag("rawDataRepacker")
+    process.hcalDigis.InputLabel = cms.InputTag("rawDataRepacker")
+    process.l1compare.FEDsourceEmul = cms.untracked.InputTag("rawDataRepacker")
+    process.l1compare.FEDsourceData = cms.untracked.InputTag("rawDataRepacker")
+    process.muonCSCDigis.InputObjects = cms.InputTag("rawDataRepacker")
+    process.muonDTDigis.inputLabel = cms.InputTag("rawDataRepacker")
+    process.muonRPCDigis.InputLabel = cms.InputTag("rawDataRepacker")
+    process.scalersRawToDigi.scalersInputTag = cms.InputTag("rawDataRepacker")
+    process.siPixelDigis.InputLabel = cms.InputTag("rawDataRepacker")
+    process.siStripDigis.ProductLabel = cms.InputTag("rawDataRepacker")
+    process.caloStage1Digis.InputLabel = cms.InputTag("rawDataRepacker")
+    process.rctDigis.inputLabel = cms.InputTag("rawDataRepacker")
+    process.load("L1Trigger.L1TCalorimeter.caloConfigStage1HI_cfi")
+    process.GlobalTag.globaltag = '75X_dataRun2_HLTHI_v4'
+    process.l1tCaloLayer1Digis.fedRawDataLabel = cms.InputTag("rawDataRepacker")
+
