@@ -69,7 +69,6 @@ void L1TLayer1::analyze(const edm::Event & event, const edm::EventSetup & es)
   event.getByToken(hcalTPSourceSent_, hcalTPsSent);
 
   for ( const auto& ecalTp : *ecalTPsRecd ) {
-    if ((ecalTp.sample(0).raw()) >= 4096) {std::cout<<"raw : "<<ecalTp.sample(0).raw()<<" and its condition check :"<< ((ecalTp.sample(0).raw()>>13) & 0x7)<<std::endl;}
     if(((ecalTp.sample(0).raw()>>13) & 0x7)==0) {
       ecalTPCompressedEtRecd_->Fill(ecalTp.compressedEt());
       if ( ecalTp.compressedEt() > tpFillThreshold_ ) {
