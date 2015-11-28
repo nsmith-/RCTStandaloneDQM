@@ -7,6 +7,23 @@ It is mostly for RCT experts to investigate issues in the hardware.
 Installation
 ------------
 
+### 2015 HI installation
+From new CMSSW_7_5_7_patch1:
+
+```bash
+git cms-addpkg DQM/L1TMonitor
+git cms-addpkg DQMOffline/L1Trigger
+git cms-addpkg EventFilter/L1TRawToDigi
+cd DQM
+git clone https://github.com/nsmith-/RCTStandaloneDQM.git
+cd ..
+cd EventFilter
+git clone https://github.com/SridharaDasu/L1TCaloLayer1RawToDigi.git
+cd ..
+scram b -j 4
+```
+
+### 2015 PP installation
 From new CMSSW_7_4_12_patch4:
 
 ```bash
@@ -24,6 +41,8 @@ git clone https://github.com/SridharaDasu/L1TCaloLayer1RawToDigi.git
 cd ..
 scram b -j 4
 ```
+
+### Common installation
 If you plan to analyze very recent runs, the conditions might not propogate to Frontier.
 In that case, you must install the credentials to access ORCON.  This should only be used
 for *critical* monitoring, more info at:
