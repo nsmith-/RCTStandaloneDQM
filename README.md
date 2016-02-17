@@ -12,10 +12,8 @@ Installation
 From new CMSSW_8_0_0_pre6 
 
 Use the recipe from: 
-```bash
+
    https://github.com/cms-l1t-offline/cmssw/issues/147
-   https://github.com/cms-l1t-offline/cmssw/issues/149
-```
 
 Then 
 
