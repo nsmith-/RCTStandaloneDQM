@@ -26,7 +26,8 @@ cd ..
 cmsenv
 scram b -j 6
 cd DQM/RCTStandaloneDQM/test/
-cmsRun testL1TLayer1.py runNumber=264593 dataStream=/Cosmics/Commissioning2016-v1/RAW
+cmsRun testRCTOffline.py runNumber=264593 dataStream=/Cosmics/Commissioning2016-v1/RAW
+./manualOutputToWeb.sh
 ```
 
 ### 2015 HI installation
