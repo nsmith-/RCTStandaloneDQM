@@ -1,10 +1,11 @@
 import FWCore.ParameterSet.Config as cms
 
 #required for ecal/hcal digis
-from  Configuration.Geometry.GeometryIdeal_cff import *
+from Configuration.Geometry.GeometryExtended2015Reco_cff import *
+from Configuration.Geometry.GeometryExtended2015_cff import *
 
 #unpacking
-from Configuration.StandardSequences.RawToDigi_Data_cff import *
+from Configuration.StandardSequences.RawToDigi_cff import *
 
 #emulator/comparator
 from L1Trigger.Configuration.L1Config_cff import *
@@ -16,7 +17,7 @@ from DQM.L1TMonitor.L1TMonitor_cff import *
 # from DQM.L1TMonitor.L1TLayer1_cfi import *
 from DQM.RCTStandaloneDQM.L1TLayer1_cfi import *
 
-from EventFilter.L1TCaloLayer1RawToDigi.l1tCaloLayer1Digis_cfi import *
+from EventFilter.L1TXRawToDigi.caloLayer1Stage2Digis_cfi import *
 
 RctDigisLayer1=valRctDigis.clone()
 RctDigisLayer1.ecalDigis = cms.VInputTag(cms.InputTag('l1tCaloLayer1Digis'))

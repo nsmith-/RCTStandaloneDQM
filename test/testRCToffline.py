@@ -35,8 +35,13 @@ process.MessageLogger.cerr.FwkReport = cms.untracked.PSet( reportEvery = cms.unt
 process.MessageLogger.cerr.WARNING = cms.untracked.PSet( limit = cms.untracked.int32(100) )
 process.options = cms.untracked.PSet( wantSummary = cms.untracked.bool(True) )
 
+process.load('Configuration.Geometry.GeometryExtended2015Reco_cff')
+process.load('Configuration.Geometry.GeometryExtended2015_cff')
+
 process.load('Configuration/StandardSequences/FrontierConditions_GlobalTag_condDBv2_cff')
-process.GlobalTag.globaltag = '74X_dataRun2_Express_v1'
+from Configuration.AlCa.GlobalTag_condDBv2 import GlobalTag
+process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:run2_data', '')
+
 if options.useORCON :
     # Channel mask record does not propogate to FrontierProd as fast as we'd like
     # Hopefully this doesn't qualify as abuse
@@ -44,7 +49,7 @@ if options.useORCON :
 process.es_prefer_GlobalTag = cms.ESPrefer('PoolDBESSource', 'GlobalTag')
 
 # Due to Stage 1 layer 2 not having O2O yet
-process.load("L1Trigger.L1TCalorimeter.caloStage1Params_cfi")
+process.load("L1Trigger.L1TCalorimeter.caloStage1Params_Deprecated_cfi")
 
 process.load("DQMServices.Core.DQM_cfg")
 process.load("DQMServices.Components.DQMEnvironment_cfi")
@@ -54,8 +59,8 @@ process.dqmSaver.workflow = cms.untracked.string('/L1TMonitor/Calo/RCTOffline')
 process.load("DQM.RCTStandaloneDQM.L1TRCToffline_cff")
 
 # This must be a bug!
-process.simRctUpgradeFormatDigis.regionTag = cms.InputTag("caloStage1Digis")
-process.simRctUpgradeFormatDigis.emTag = cms.InputTag("caloStage1Digis")
+#process.simRctUpgradeFormatDigis.regionTag = cms.InputTag("caloStage1Digis")
+#process.simRctUpgradeFormatDigis.emTag = cms.InputTag("caloStage1Digis")
 
 process.qTester = cms.EDAnalyzer("QualityTester",
     qtList          = cms.untracked.FileInPath('DQM/RCTStandaloneDQM/data/L1TdeRCTQualityTests.xml'),
@@ -65,6 +70,8 @@ process.qTester = cms.EDAnalyzer("QualityTester",
 )
 
 process.p = cms.Path(process.rctdqm*process.qTester*process.dqmSaver)
+
+print process.p
 
 process.maxEvents = cms.untracked.PSet(
     input = cms.untracked.int32(-1)
