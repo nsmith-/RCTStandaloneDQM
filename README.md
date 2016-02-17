@@ -12,11 +12,14 @@ Installation
 From new CMSSW_8_0_0_pre6 
 
 Use the recipe from: 
+```bash
    https://github.com/cms-l1t-offline/cmssw/issues/147
    https://github.com/cms-l1t-offline/cmssw/issues/149
+```
 
 Then 
 
+```bash
 git cms-addpkg DQM/L1TMonitor
 git cms-addpkg DQMOffline/L1Trigger
 cd DQM
@@ -26,6 +29,7 @@ cmsenv
 scram b -j 6
 cd DQM/RCTStandaloneDQM/test/
 cmsRun testL1TLayer1.py runNumber=264593 dataStream=/Cosmics/Commissioning2016-v1/RAW
+```
 
 ### 2015 HI installation
 From new CMSSW_7_5_7_patch1:
