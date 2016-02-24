@@ -13,7 +13,7 @@ From new CMSSW_8_0_0_pre6
 
 Use the recipe from: 
 
-   https://github.com/cms-l1t-offline/cmssw/issues/147
+   https://github.com/cms-l1t-offline/cmssw/issues/164
 
 Then 
 
