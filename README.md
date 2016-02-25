@@ -7,6 +7,29 @@ It is mostly for RCT experts to investigate issues in the hardware.
 Installation
 ------------
 
+### 2016 Run Processing
+
+From new CMSSW_8_0_0_pre6 
+
+Use the recipe from: 
+
+   https://github.com/cms-l1t-offline/cmssw/issues/164
+
+Then 
+
+```bash
+git cms-addpkg DQM/L1TMonitor
+git cms-addpkg DQMOffline/L1Trigger
+cd DQM
+git clone https://github.com/nsmith-/RCTStandaloneDQM.git
+cd ..
+cmsenv
+scram b -j 6
+cd DQM/RCTStandaloneDQM/test/
+cmsRun testRCTOffline.py runNumber=264593 dataStream=/Cosmics/Commissioning2016-v1/RAW
+./manualOutputToWeb.sh
+```
+
 ### 2015 HI installation
 From new CMSSW_7_5_7_patch1:
 
